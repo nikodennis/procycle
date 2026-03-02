@@ -14,6 +14,16 @@ public class GameService {
     Cyclist currentAnswer;
     String mode;
     String difficulty;
+    ArrayList<String> northAmerica = new ArrayList<>();
+    ArrayList<String> SouthAmerica = new ArrayList<>();
+    ArrayList<String> Africa = new ArrayList<>();
+    ArrayList<String> Australia = new ArrayList<>();
+    ArrayList<String> Asia = new ArrayList<>();
+    ArrayList<String> WesternEurope = new ArrayList<>();
+    ArrayList<String> EasternEurope = new ArrayList<>();
+    ArrayList<String> NorthernEurope = new ArrayList<>();
+    ArrayList<String> SouthernEurope = new ArrayList<>();
+    ArrayList<String> CentralEurope = new ArrayList<>();
 
     public GameService() {
         try {
@@ -137,6 +147,11 @@ public class GameService {
         Random random = new Random();
         int randomIndex = random.nextInt(getFilteredList().size());
         return getFilteredList().get(randomIndex);
+    }
+
+    public String getRegion(){
+
+        return "i";
     }
 
     public String[] compareGuess(Cyclist guess, Cyclist answer){

@@ -19,6 +19,7 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
+        model.addAttribute("difficulty", theData.getDifficulty());
         return "home";
     }
 
@@ -69,6 +70,7 @@ public class HomeController {
         theData.clearHistory();
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
+        model.addAttribute("difficulty", theData.getDifficulty());
         return "home";
     }
     @PostMapping("/reveal")
@@ -89,6 +91,7 @@ public class HomeController {
         theData.setCurrentAnswerToRandom();
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
+        model.addAttribute("difficulty", theData.getDifficulty());
         return "home";
     }
     @PostMapping("/Easy")
@@ -98,6 +101,7 @@ public class HomeController {
         theData.setCurrentAnswerToRandom();
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
+        model.addAttribute("difficulty", theData.getDifficulty());
         return "home";
     }
     @PostMapping("/Medium")
@@ -107,6 +111,7 @@ public class HomeController {
         theData.setCurrentAnswerToRandom();
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
+        model.addAttribute("difficulty", theData.getDifficulty());
         return "home";
     }
     @PostMapping("/Hard")
@@ -116,6 +121,7 @@ public class HomeController {
         theData.setCurrentAnswerToRandom();
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
+        model.addAttribute("difficulty", theData.getDifficulty());
         return "home";
     }
 
