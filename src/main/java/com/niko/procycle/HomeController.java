@@ -20,6 +20,7 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         return "home";
     }
 
@@ -32,6 +33,7 @@ public class HomeController {
             model.addAttribute("listOfNames", theData.getListOfNames());
             model.addAttribute("mode", theData.getMode());
             model.addAttribute("difficulty", theData.getDifficulty());
+            model.addAttribute("genderMode", theData.getGenderMode());
             return "home";
         }
         Cyclist answerCyclist = theData.getCurrentAnswer();
@@ -43,6 +45,7 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         Guess aGuess = new Guess(guessedCyclist, colors, arrows);
         ArrayList<Guess> guessHistory = theData.guessHistory(aGuess);
         model.addAttribute("guessHistory", guessHistory);
@@ -59,6 +62,7 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         return "home";
     }
 
@@ -71,6 +75,7 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         return "home";
     }
     @PostMapping("/reveal")
@@ -81,6 +86,7 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         return "home";
 
     }
@@ -92,6 +98,7 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         return "home";
     }
     @PostMapping("/Easy")
@@ -102,6 +109,7 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         return "home";
     }
     @PostMapping("/Medium")
@@ -112,6 +120,7 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         return "home";
     }
     @PostMapping("/Hard")
@@ -122,7 +131,22 @@ public class HomeController {
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
         return "home";
     }
 
+    @PostMapping("/Both")
+    public String both(Model model){
+        return "home";
+    }
+
+    @PostMapping("/Men")
+    public String men(Model model){
+        return "home";
+    }
+
+    @PostMapping("/Women")
+    public String women(Model model){
+        return "home";
+    }
 }

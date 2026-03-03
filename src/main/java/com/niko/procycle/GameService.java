@@ -14,6 +14,7 @@ public class GameService {
     Cyclist currentAnswer;
     String mode;
     String difficulty;
+    String genderMode;
     ArrayList<String> northAmerica = new ArrayList<>(Arrays.asList("USA", "Canada", "Mexico", "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panama", "Belize", "Cuba", "Jamaica", "Haiti", "Dominican Republic", "Puerto Rico", "Trinidad and Tobago", "Bahamas", "Barbados", "Grenada", "Saint Lucia", "Saint Vincent and the Grenadines", "Antigua and Barbuda", "Dominica", "Saint Kitts and Nevis"));
     ArrayList<String> southAmerica = new ArrayList<>(Arrays.asList("Colombia", "Ecuador", "Brazil", "Argentina", "Chile", "Venezuela", "Uruguay", "Peru", "Bolivia", "Paraguay", "Guyana", "Suriname", "French Guiana"));
     ArrayList<String> africa = new ArrayList<>(Arrays.asList("South Africa", "Eritrea", "Ethiopia", "Algeria", "Morocco", "Rwanda", "Namibia", "Egypt", "Nigeria", "Kenya", "Ghana", "Tanzania", "Uganda", "Cameroon", "Ivory Coast", "Senegal", "Zimbabwe", "Zambia", "Botswana", "Mozambique", "Angola", "Tunisia", "Libya", "Sudan", "South Sudan", "DR Congo", "Mali", "Burkina Faso", "Niger", "Chad", "Somalia", "Madagascar", "Malawi", "Mauritius", "Togo", "Benin", "Sierra Leone", "Liberia", "Central African Republic", "Gabon", "Congo", "Equatorial Guinea", "Guinea", "Guinea-Bissau", "Gambia", "Lesotho", "Eswatini", "Djibouti", "Comoros", "Cape Verde", "Sao Tome and Principe", "Seychelles"));
@@ -34,6 +35,7 @@ public class GameService {
         mode = "Daily";
         difficulty = "Hard";
         currentAnswer = getDailyCyclist();
+        genderMode = "Both";
     }
 
     public void createCyclists() throws Exception {
@@ -49,32 +51,50 @@ public class GameService {
         }
     }
 
-    public ArrayList<Cyclist> getFilteredList(){
-        ArrayList<Cyclist> filteredCyclists = new ArrayList<>();
+    public boolean matchesDifficulty(Cyclist c){
         if(difficulty.equals("Hard")){
-            return cyclists;
+            return true;
         }
         if(difficulty.equals("Medium")){
-            for(int i = 0; i<cyclists.size(); i++){
-                if(cyclists.get(i).getDifficulty().equals("Medium") || cyclists.get(i).getDifficulty().equals("Easy") || cyclists.get(i).getDifficulty().equals("Noob")){
-                    filteredCyclists.add(cyclists.get(i));
-                }
+            if(c.getDifficulty().equals("Medium") || c.getDifficulty().equals("Easy") || c.getDifficulty().equals("Noob")){
+                return true;
             }
         }
         if(difficulty.equals("Easy")){
-            for(int i = 0; i<cyclists.size(); i++){
-                if(cyclists.get(i).getDifficulty().equals("Easy") || cyclists.get(i).getDifficulty().equals("Noob")){
-                    filteredCyclists.add(cyclists.get(i));
-                }
+            if(c.getDifficulty().equals("Easy") || c.getDifficulty().equals("Noob")){
+                return true;
             }
         }
         if(difficulty.equals("Noob")){
-            for(int i = 0; i<cyclists.size(); i++){
-                if(cyclists.get(i).getDifficulty().equals("Noob")){
-                    filteredCyclists.add(cyclists.get(i));
-                }
+            if(c.getDifficulty().equals("Noob")){
+                return true;
             }
         }
+        return false;
+    }
+
+    public boolean matchesGenderMode(Cyclist c){
+        if(genderMode.equals("Both")){
+            return true;
+        }
+        if(genderMode.equals("Men")){
+            if(c.getGender().equals("Male"))
+                return true;
+        }
+        if(genderMode.equals("Women")){
+            if(c.getGender().equals("Female"))
+                return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Cyclist> getFilteredList(){
+        ArrayList<Cyclist> filteredCyclists = new ArrayList<>();
+        for (Cyclist c : cyclists) {
+            if (matchesDifficulty(c) && matchesGenderMode(c)) {
+                filteredCyclists.add(c);
+        }
+    }
         return filteredCyclists;
     }
 
@@ -102,6 +122,26 @@ public class GameService {
         return difficulty;
     }
 
+    public String setMen(){
+        genderMode = "Men";
+        return genderMode;
+    }
+
+    public String setWomen(){
+        genderMode = "Women";
+        return genderMode;
+    }
+
+    public String setBoth(){
+        genderMode = "Both";
+        return genderMode;
+    }
+
+    public String getGenderMode(){
+        return genderMode;
+    }
+
+    
     public ArrayList<String> getListOfNames(){
         ArrayList<String> listOfNames = new ArrayList<>();
         for (Cyclist i: getFilteredList()){
