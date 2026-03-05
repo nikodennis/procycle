@@ -29,8 +29,33 @@
             <button style="border-radius: 20px; background-color: white; cursor: pointer; font-size: 30px; font-weight: 500; height: 40px; padding-left: 10px; padding-right: 10px;">?</button>
         </div>
     </div>
-    <div id="sidebar" style="display: none; justify-content: center; align-items: center; height: 900px; width: 700px; z-index: 100; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">    
-        <button id="closebutton" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 500;">X</button>
+
+    <div id="sidebar" style="display: none; height: 620px; width: 660px; z-index: 100; padding: 40px 20px; flex-direction: column; gap: 10px; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30px; border: 2px solid black;">
+        <button id="closebutton" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 500; position: fixed; top: 10px; Right: 10px;">X</button>
+        <div>
+            <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null}" style="display: inline;">
+                <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button>
+            </form>
+            <form th:if="${mode == 'Daily'}" action="/Unlimited" method="post" style="display: inline;">
+                <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Play Unlimited</button>
+            </form>
+            <form th:if="${mode == 'Unlimited'}" action="/daily" method="post" style="display: inline;">
+                <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Play The Daily</button>
+            </form>
+        </div>
+        <p th:if="${mode == 'Unlimited'}" style="font-size: 20px; font-weight: 600; padding: 0px; margin: 0px;">Play Settings</p>
+        <div>
+            <p th:if="${mode == 'Unlimited'}" style="display: inline; padding-right: 15px;">Gender:</p>
+            <form th:if="${mode == 'Unlimited'}" action="/Both" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
+                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Both'} ? '#36a73e' : 'white')">Both</button>
+            </form>
+            <form th:if="${mode == 'Unlimited'}" action="/Men" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
+                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Men'} ? '#36a73e' : 'white')">Men</button>
+            </form>
+            <form th:if="${mode == 'Unlimited'}" action="/Women" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
+                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Women'} ? '#36a73e' : 'white')">Women</button>
+            </form>
+        </div>
     </div>
 
     <h2 th:if="${mode == 'Daily'}" style=" margin: 10px; text-align: center; font-weight: 650; font-Size: 20px">Welcome to The Daily PROCYCLE</h2>
@@ -61,15 +86,6 @@
         </form>
         <form th:if="${mode == 'Unlimited'}" action="/daily" method="post" style="display: inline;">
             <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">Play The Daily</button>
-        </form>
-        <form th:if="${mode == 'Unlimited'}" action="/Both" method="post" style="display: inline;">
-            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Both'} ? '#36a73e' : 'white')">Both</button>
-        </form>
-        <form th:if="${mode == 'Unlimited'}" action="/Men" method="post" style="display: inline;">
-            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Men'} ? '#36a73e' : 'white')">Men</button>
-        </form>
-        <form th:if="${mode == 'Unlimited'}" action="/Women" method="post" style="display: inline;">
-            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Women'} ? '#36a73e' : 'white')">Women</button>
         </form>
     </div>
     <form action="/guess" method="post" style="text-align: center; margin: 0px;" th:if="${won == null and revealed == null}">
@@ -141,7 +157,7 @@
                 <p th:text="${guess.guessedCyclist.nationality}" style="font-size: 20px;"></p>
             </div>
         </div>
-        <div th:if="${guessHistory != null and won == null and error == null}" style="display: flex; flex-wrap: wrap; justify-content: center; width: 600px; margin: auto; margin-top: 30px;">
+        <div th:if="${guessHistory != null and won == null and error == null}" style="display: flex; flex-wrap: wrap; justify-content: center; width: 600px; margin: auto; margin-top: 30px; padding-bottom: 10px;">
                 <div th:style="'background-color: black; width: 75px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;'">
                     <p>Incorrect</p>
                 </div>
@@ -204,11 +220,16 @@
     var menubutton = document.getElementById("menubutton");
     var sidebar = document.getElementById("sidebar");
     var closebutton = document.getElementById("closebutton")
-
+    
+    if (sessionStorage.getItem("menuOpen") === "true") {
+        sidebar.style.display = "flex";
+    }   
     menubutton.addEventListener("click", function() {
         sidebar.style.display = "flex";
+        sessionStorage.setItem("menuOpen", "true");
     });
     closebutton.addEventListener("click", function() {
+        sessionStorage.removeItem("menuOpen");
         sidebar.style.display = "none";
     });
 
