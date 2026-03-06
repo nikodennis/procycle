@@ -30,9 +30,8 @@
         </div>
     </div>
 
-    <div id="sidebar" style="display: none; height: 620px; width: 660px; z-index: 100; padding: 40px 20px; flex-direction: column; gap: 10px; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30px; border: 2px solid black;">
+    <div id="sidebar" style="display: none; height: 600px; width: 660px; z-index: 100; padding: 40px 20px; flex-direction: column; gap: 10px; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30px; border: 2px solid black;">
         <button id="closebutton" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 500; position: fixed; top: 10px; Right: 10px;">X</button>
-        <button id="homeButton" style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">Home</button>
         <div>
             <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null}" style="display: inline;">
                 <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button>
@@ -72,9 +71,21 @@
                 <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Women'} ? '#36a73e' : 'white')">Women</button>
             </form>
         </div>
+         <div>
+            <p th:if="${mode == 'Unlimited'}" style="display: inline; padding-right: 15px;">Guesses:</p>
+            <form th:if="${mode == 'Unlimited'}" action="/Limited" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
+                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${guessMode == 'Limited'} ? '#36a73e' : 'white')">Ten</button>
+            </form>
+            <form th:if="${mode == 'Unlimited'}" action="/Infinite" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
+                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${guessMode == 'Infinite'} ? '#36a73e' : 'white')">Infinite</button>
+            </form>
+        </div>
+        <form action="/daily" method="post">
+            <button style="width: fit-content; border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('hasPlayed'); location.reload(); sessionStorage.removeItem('menuOpen');">Home</button>
+        </form>
     </div>
 
-    <div id="directionsPage" style="display: none; height: 620px; width: 660px; z-index: 100; padding: 40px 20px; flex-direction: column; gap: 10px; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30px; border: 2px solid black;">
+    <div id="directionsPage" style="display: none; height: 600px; width: 660px; z-index: 100; padding: 40px 20px; flex-direction: column; gap: 10px; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30px; border: 2px solid black;">
         <button id="close2button" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 500; position: fixed; top: 10px; Right: 10px;">X</button>
     </div>
 
@@ -100,16 +111,18 @@
             <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">Reveal Answer</button>
         </form>
     </div>
-    <form action="/guess" method="post" style="text-align: center; margin: 0px;" th:if="${won == null and revealed == null}">
+
+    <form action="/guess" method="post" style="text-align: center; margin: 0px;" th:if="${won == null and revealed == null and (guessMode == 'Infinite' or guessHistory == null or guessHistory.size() < 10)}">
         <div style="position: relative; display: inline-block;">
             <input type="text" name="guess" id="guessInput" placeholder="Type a Cyclist..." autocomplete="off" style="border-radius: 20px; height: 40px; font-size: 15px; font-weight: 600; background-color: black; color: white; font-family: Montserrat, sans-serif; padding-left: 15px; box-sizing: border-box; vertical-align: middle; cursor: pointer;"/>
             <div id="suggestions" style="position: absolute; background-color: white; width: 300px; left: 50%; transform: translateX(-50%); z-index: 10; max-height: 200px; overflow-y: auto;"></div>
         </div>
         <button style="border-radius: 20px; height: 40px; font-size: 17px; font-weight: 600; color: white; background-color: green; vertical-align: middle; box-sizing: border-box; padding-left: 15px; padding-right: 15px; cursor: pointer;">Guess</button>
     </form>
+    <p th:if="${(guessHistory == Null or guessHistory.size() < 10) and guessMode == 'Limited'}" th:text="'Guess ' + (${guessHistory != null} ? ${guessHistory.size() + 1} : 1) + ' of 10'" style="font-size: 12px; text-align: center; margin: 0px; padding-top: 8px; color: gray"></p>
     <div th:if="${mode == 'Daily' and guessHistory == null}" style="text-align: center;">
         <p style="margin: 0px; padding-top: 25px; font-weight: 550; font-size: 15px; font-family: Nunito, 'Times New Roman', serif;">Guess the cyclist of the day.</p>
-        <p style="margin: 0px; padding-top: 20px; font-weight: 550; font-size: 15px; font-family: Nunito, 'Times New Roman', serif;">Search for a cyclist to make your first.</p>
+        <p style="margin: 0px; padding-top: 20px; padding-bottom: 15px; font-weight: 550; font-size: 15px; font-family: Nunito, 'Times New Roman', serif;">Search for a cyclist to make your first.</p>
     </div>
     
     <p th:if="${error}" th:text="${error}" style="color: red; text-align: center;"></p>
@@ -124,13 +137,20 @@
                 </form>
             </div>
         </div>
+        <div th:if="${won != true and guessHistory.size() == 10 and guessMode == 'Limited'}">
+            <h3 style="font-size: 25px;text-align: center; margin-bottom: 5px; margin-top: 0px; font-weight: 800; color: red; padding-bottom: 10px;">You lost.</h3>
+            <div style="text-align: center;">
+                <form action="/Unlimited" method="post">
+                    <button style="border-radius: 20px; height: 40px; font-size: 20px; font-weight: 600; color: white; background-color: black; padding-left: 20px; padding-right: 20px; cursor: pointer;">Play Unlimited</button>
+                </form>
+            </div>
+        </div>
         <div th:if="${revealed}" style="text-align: center;">
             <h3 th:text="'The answer was ' + ${revealedCyclist.name}"></h3>
             <form action="/Unlimited" method="post">
                     <button style="border-radius: 20px; height: 40px; font-size: 20px; font-weight: 600; color: white; padding-left: 20px; padding-right: 20px; cursor: pointer; background-color: Black">Play Unlimited</button>
             </form>
         </div>
-        
         <div th:each="guess : ${guessHistory}" style="display: flex; flex-wrap: wrap; justify-content: center; width: 600px; margin: auto; margin-top: 0px; margin-bottom: 20px;">
             <p th:text="${guess.guessedCyclist.name}" style="font-size: 35px; font-weight: 700; color: black; margin-bottom: 25px; width: 100%; text-align: center;">Name</p>
             <div th:style="'background-color: ' + ${guess.colors[0]} + '; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;'"> 
@@ -259,12 +279,6 @@
     close2button.addEventListener("click", function() {
         sessionStorage.removeItem("menuOpen");
         directionsPage.style.display = "none";
-    });
-
-    var homeButton = document.getElementById("homeButton");
-
-    homeButton.addEventListener("click", function() {
-        splashScreen.style.display = "flex";
     });
 
     var cyclists = /*[[${listOfNames}]]*/ [];

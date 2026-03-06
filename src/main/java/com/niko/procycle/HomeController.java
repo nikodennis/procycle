@@ -21,6 +21,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
 
@@ -34,6 +35,7 @@ public class HomeController {
             model.addAttribute("mode", theData.getMode());
             model.addAttribute("difficulty", theData.getDifficulty());
             model.addAttribute("genderMode", theData.getGenderMode());
+            model.addAttribute("guessMode", theData.getGuessMode());
             return "home";
         }
         Cyclist answerCyclist = theData.getCurrentAnswer();
@@ -46,6 +48,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         Guess aGuess = new Guess(guessedCyclist, colors, arrows);
         ArrayList<Guess> guessHistory = theData.guessHistory(aGuess);
         model.addAttribute("guessHistory", guessHistory);
@@ -58,11 +61,13 @@ public class HomeController {
     public String unlimitedMode(Model model){
         theData.setUnlimitedMode();
         theData.setCurrentAnswerToRandom();
+        theData.setInfinite();
         theData.clearHistory();
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
 
@@ -71,12 +76,14 @@ public class HomeController {
         theData.setDailyMode();
         theData.setHard();
         theData.setBoth();
+        theData.setLimited();
         theData.setCurrentAnswerToDaily();
         theData.clearHistory();
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
     @PostMapping("/reveal")
@@ -88,6 +95,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
 
     }
@@ -100,6 +108,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
     @PostMapping("/Easy")
@@ -111,6 +120,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
     @PostMapping("/Medium")
@@ -122,6 +132,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
     @PostMapping("/Hard")
@@ -133,6 +144,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
 
@@ -145,6 +157,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
 
@@ -157,6 +170,7 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
 
@@ -169,6 +183,33 @@ public class HomeController {
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
+        return "home";
+    }
+
+    @PostMapping("/Limited")
+    public String limited(Model model){
+        theData.setLimited();
+        theData.clearHistory();
+        theData.setCurrentAnswerToRandom();
+        model.addAttribute("listOfNames", theData.getListOfNames());
+        model.addAttribute("mode", theData.getMode());
+        model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
+        return "home";
+    }
+
+    @PostMapping("/Infinite")
+    public String infinite(Model model){
+        theData.setInfinite();
+        theData.clearHistory();
+        theData.setCurrentAnswerToRandom();
+        model.addAttribute("listOfNames", theData.getListOfNames());
+        model.addAttribute("mode", theData.getMode());
+        model.addAttribute("difficulty", theData.getDifficulty());
+        model.addAttribute("genderMode", theData.getGenderMode());
+        model.addAttribute("guessMode", theData.getGuessMode());
         return "home";
     }
 }

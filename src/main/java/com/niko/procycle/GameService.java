@@ -15,6 +15,7 @@ public class GameService {
     String mode;
     String difficulty;
     String genderMode;
+    String guessMode;
     ArrayList<String> northAmerica = new ArrayList<>(Arrays.asList("USA", "Canada", "Mexico", "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panama", "Belize", "Cuba", "Jamaica", "Haiti", "Dominican Republic", "Puerto Rico", "Trinidad and Tobago", "Bahamas", "Barbados", "Grenada", "Saint Lucia", "Saint Vincent and the Grenadines", "Antigua and Barbuda", "Dominica", "Saint Kitts and Nevis"));
     ArrayList<String> southAmerica = new ArrayList<>(Arrays.asList("Colombia", "Ecuador", "Brazil", "Argentina", "Chile", "Venezuela", "Uruguay", "Peru", "Bolivia", "Paraguay", "Guyana", "Suriname", "French Guiana"));
     ArrayList<String> africa = new ArrayList<>(Arrays.asList("South Africa", "Eritrea", "Ethiopia", "Algeria", "Morocco", "Rwanda", "Namibia", "Egypt", "Nigeria", "Kenya", "Ghana", "Tanzania", "Uganda", "Cameroon", "Ivory Coast", "Senegal", "Zimbabwe", "Zambia", "Botswana", "Mozambique", "Angola", "Tunisia", "Libya", "Sudan", "South Sudan", "DR Congo", "Mali", "Burkina Faso", "Niger", "Chad", "Somalia", "Madagascar", "Malawi", "Mauritius", "Togo", "Benin", "Sierra Leone", "Liberia", "Central African Republic", "Gabon", "Congo", "Equatorial Guinea", "Guinea", "Guinea-Bissau", "Gambia", "Lesotho", "Eswatini", "Djibouti", "Comoros", "Cape Verde", "Sao Tome and Principe", "Seychelles"));
@@ -35,6 +36,7 @@ public class GameService {
         genderMode = "Both";
         mode = "Daily";
         difficulty = "Hard";
+        guessMode = "Limited";
         currentAnswer = getDailyCyclist();
     }
 
@@ -141,7 +143,20 @@ public class GameService {
         return genderMode;
     }
 
-    
+    public String setLimited(){
+        guessMode = "Limited";
+        return guessMode;
+    }
+
+    public String setInfinite(){
+        guessMode = "Infinite";
+        return guessMode;
+    }
+
+    public String getGuessMode(){
+        return guessMode;
+    }
+
     public ArrayList<String> getListOfNames(){
         ArrayList<String> listOfNames = new ArrayList<>();
         for (Cyclist i: getFilteredList()){
