@@ -55,6 +55,10 @@ public class HomeController {
         if (guessedCyclist.getName().equals(answerCyclist.getName())){
             model.addAttribute("won", true);
         }
+        if (theData.getGuesses().size() >= 10 && !guessedCyclist.getName().equals(answerCyclist.getName()) && theData.getGuessMode().equals("Limited")) {
+            model.addAttribute("revealedCyclist", theData.getCurrentAnswer());
+            model.addAttribute("revealed", true);
+        }
         return "home";
     }
     @PostMapping("/Unlimited")

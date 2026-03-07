@@ -33,7 +33,10 @@
     <div id="sidebar" style="display: none; height: 600px; width: 660px; z-index: 100; padding: 40px 20px; flex-direction: column; gap: 10px; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30px; border: 2px solid black;">
         <button id="closebutton" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 500; position: fixed; top: 10px; Right: 10px;">X</button>
         <div>
-            <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null}" style="display: inline;">
+            <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null and guessMode == 'Limited' and (guessHistory.size() == null or guessHistory.size() < 10)}" style="display: inline;">
+                <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button>
+            </form>
+            <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null and guessMode == 'Infinite'}" style="display: inline;">
                 <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button>
             </form>
             <form th:if="${mode == 'Daily'}" action="/Unlimited" method="post" style="display: inline;">
@@ -107,7 +110,12 @@
         </form>
     </div>
     <div style="position: absolute; top: 60px; right: 10px;">
-        <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null}" style="display: inline;">
+        <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null and mode == 'Unlimited' and guessMode == 'Limited' and (guessHistory.size() == null or guessHistory.size() < 10)}" style="display: inline;">
+            <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">Reveal Answer</button>
+        </form>
+    </div>
+    <div style="position: absolute; top: 60px; right: 10px;">
+        <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null and mode == 'Unlimited' and guessMode == 'Infinite'}" style="display: inline;">
             <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">Reveal Answer</button>
         </form>
     </div>
@@ -119,7 +127,9 @@
         </div>
         <button style="border-radius: 20px; height: 40px; font-size: 17px; font-weight: 600; color: white; background-color: green; vertical-align: middle; box-sizing: border-box; padding-left: 15px; padding-right: 15px; cursor: pointer;">Guess</button>
     </form>
-    <p th:if="${(guessHistory == Null or guessHistory.size() < 10) and guessMode == 'Limited'}" th:text="'Guess ' + (${guessHistory != null} ? ${guessHistory.size() + 1} : 1) + ' of 10'" style="font-size: 12px; text-align: center; margin: 0px; padding-top: 8px; color: gray"></p>
+
+    <p th:if="${(guessHistory == null or guessHistory.size() < 10) and guessMode == 'Limited' and won != true and revealed == null}" th:text="'Guess ' + (${guessHistory != null} ? ${guessHistory.size() + 1} : 1) + ' of 10'" style="font-size: 12px; text-align: center; margin: 0px; padding-top: 8px; color: gray"></p>
+    
     <div th:if="${mode == 'Daily' and guessHistory == null}" style="text-align: center;">
         <p style="margin: 0px; padding-top: 25px; font-weight: 550; font-size: 15px; font-family: Nunito, 'Times New Roman', serif;">Guess the cyclist of the day.</p>
         <p style="margin: 0px; padding-top: 20px; padding-bottom: 15px; font-weight: 550; font-size: 15px; font-family: Nunito, 'Times New Roman', serif;">Search for a cyclist to make your first.</p>
@@ -129,7 +139,7 @@
 
     <div th:if="${guessHistory}">
         <div th:if="${won}">
-            <h3 style="font-size: 25px;text-align: center; margin-bottom: 5px; margin-top: 0px; font-weight: 800;">YOU WON!</h3>
+            <h3 style="font-size: 25px;text-align: center; margin-bottom: 5px; margin-top: 0px; font-weight: 800; color: green">YOU WON!</h3>
             <p th:if="${guessHistory != null}" th:text="'Guesses: ' + ${guessHistory.size()}" style="text-align: center; font-size: 20px; margin-top: 0px; font-weight: 750;"></p>
             <div style="text-align: center;">
                 <form action="/Unlimited" method="post">
@@ -137,7 +147,7 @@
                 </form>
             </div>
         </div>
-        <div th:if="${won != true and guessHistory.size() == 10 and guessMode == 'Limited'}">
+        <div th:if="${revealedCyclist != null}">
             <h3 style="font-size: 25px;text-align: center; margin-bottom: 5px; margin-top: 0px; font-weight: 800; color: red; padding-bottom: 10px;">You lost.</h3>
             <div style="text-align: center;">
                 <form action="/Unlimited" method="post">
@@ -146,11 +156,38 @@
             </div>
         </div>
         <div th:if="${revealed}" style="text-align: center;">
-            <h3 th:text="'The answer was ' + ${revealedCyclist.name}"></h3>
             <form action="/Unlimited" method="post">
                     <button style="border-radius: 20px; height: 40px; font-size: 20px; font-weight: 600; color: white; padding-left: 20px; padding-right: 20px; cursor: pointer; background-color: Black">Play Unlimited</button>
             </form>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 600px; margin: auto; margin-top: 0px; margin-bottom: 20px;">
+                <p th:text="${revealedCyclist.name}" style="font-size: 35px; font-weight: 700; color: black; margin-bottom: 25px; width: 100%; text-align: center;">Name</p>
+                <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;"> 
+                    <p style="font-weight: 600;">Pro Debut</p>
+                    <p th:text="${revealedCyclist.debut}" style="font-size: 20px;"></p>
+                </div>
+                <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+                    <p style="font-weight: 600;">Team</p>
+                    <p th:text="${revealedCyclist.team}" style="font-size: 20px;"></p>
+                </div>
+                <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+                    <p style="font-weight: 600;">Professional Wins</p>
+                    <p th:text="${revealedCyclist.wins}" style="font-size: 20px;"></p>
+                </div>
+                <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+                    <p style="font-weight: 600;">Gender</p>
+                    <p th:text="${revealedCyclist.gender}" style="font-size: 20px;"></p>
+                </div>
+                <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+                    <p style="font-weight: 600;">Specialty</p>
+                    <p th:text="${revealedCyclist.specialty}" style="font-size: 20px;"></p>
+                </div>
+                <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+                    <p style="font-weight: 600;">Nationality</p>
+                    <p th:text="${revealedCyclist.nationality}" style="font-size: 20px;"></p>
+                </div>
+            </div>
         </div>
+
         <div th:each="guess : ${guessHistory}" style="display: flex; flex-wrap: wrap; justify-content: center; width: 600px; margin: auto; margin-top: 0px; margin-bottom: 20px;">
             <p th:text="${guess.guessedCyclist.name}" style="font-size: 35px; font-weight: 700; color: black; margin-bottom: 25px; width: 100%; text-align: center;">Name</p>
             <div th:style="'background-color: ' + ${guess.colors[0]} + '; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;'"> 
@@ -198,7 +235,7 @@
                 </div>
                 <div th:style="'background-color: Green; width: 75px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;'">
                     <p>Correct</p>
-        </div>
+                </div>
         </div>
     </div>
 </div>
