@@ -5,9 +5,70 @@
     <title>ProCycle</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;450;500;550;600;650;700;750;800;850;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        #sidebar.no-transition {
+            transition: none;
+        }
+        #sidebar {
+            box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+            height: 610px; 
+            width: 620px; 
+            z-index: 100; 
+            padding: 30px 30px; 
+            flex-direction: column;
+            gap: 10px; 
+            background-color: white; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            border-radius: 30px; 
+            border: 4px solid black;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(-50%, -50%) translateY(30px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        #sidebar.active {
+            pointer-events: auto;
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) translateY(0px);
+        }
+
+        #directionsPage {
+            box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5); 
+            height: 610px;
+            width: 620px; 
+            z-index: 100; 
+            padding: 30px 30px; 
+            flex-direction: column; 
+            gap: 10px; 
+            background-color: white; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            border-radius: 30px; 
+            border: 4px solid black;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(-50%, -50%) translateY(30px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+        }
+
+        #directionsPage.active {
+            pointer-events: auto;
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) translateY(0px);
+        }
+    </style>
 </head>
 <body style="background: linear-gradient(to right, lightgray 0,white 45% 55%, lightgray 100%); font-family: Montserrat, sans-serif; font-weight: 700; margin: 0px; display: flex; flex-direction: column; min-height: 100vh; padding: 0px;">
-<div id="splashScreen" style="transition: opacity 0.5s ease-in; display: none; flex-direction: column; align-items: center; z-index: 100; padding-top: 125px; width: 100%; height: 100%; margin: auto; position: fixed; background: linear-gradient(white, lightgray); padding-top: -100px">
+<div id="splashScreen" style="transition: opacity 0.3s ease-in; display: none; flex-direction: column; align-items: center; z-index: 100; padding-top: 125px; width: 100%; height: 100%; margin: auto; position: fixed; background: linear-gradient(white, lightgray); padding-top: -100px">
     <div style="Margin: 5px;">
         <h1 style="font-size: 70px; text-align: center; font-weight: 800; letter-spacing: 5px; display: inline; padding-right: 0px;"><span style="color: white; -webkit-text-stroke: 6px black; paint-order: stroke fill;">P</span><span style="color: white; -webkit-text-stroke: 6px black; paint-order: stroke fill;">R</span><span style="color: white; -webkit-text-stroke: 6px black; paint-order: stroke fill;">O</span></h1><h1 style="font-size: 70px; text-align: center; font-weight: 800; display: inline"><span style="color:#007bbf">C</span><span style="color: #da2430">Y</span><span style="color: #111012">C</span><span style="color:#ffed00">L</span><span style="color: #36a73e">E</span></h1>
     </div>
@@ -31,8 +92,8 @@
     </div>
     <hr style="width: 530px; border: 1px solid gray; margin: auto;">
 
-    <div id="sidebar" style="display: none; height: 600px; width: 660px; z-index: 100; padding: 40px 20px; flex-direction: column; gap: 10px; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30px; border: 2px solid black;">
-        <button id="closebutton" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 500; position: fixed; top: 10px; Right: 10px;">X</button>
+    <div id="sidebar">
+        <button id="closebutton" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 600; position: fixed; top: 5px; Right: 10px;">&#x2715;</button>
         <div>
             <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null and guessMode == 'Limited' and (guessHistory.size() == null or guessHistory.size() < 10)}" style="display: inline;">
                 <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button>
@@ -89,8 +150,46 @@
         </form>
     </div>
 
-    <div id="directionsPage" style="display: none; height: 600px; width: 660px; z-index: 100; padding: 40px 20px; flex-direction: column; gap: 10px; background-color: lightgray; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30px; border: 2px solid black;">
-        <button id="close2button" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 500; position: fixed; top: 10px; Right: 10px;">X</button>
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.2); z-index: 50;"></div>
+
+    <div id="directionsPage">
+        <button id="close2button" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 600; position: fixed; top: 5px; Right: 10px;">&#x2715;</button>
+        <button id="howtoplaybutton" style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">How to Play</button>
+        <button id="attributesbutton" style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">Attributes Explination</button>
+        <div id="page1" style="display: block;">
+            <h1 style="text-align: center; font-weight: 600px; margin: 0px; padding-bottom: 20px; padding-top: 20px;">How To Play</h1>
+            <div style="margin: 0px; padding-bottom: 20px;"><h2 style="text-align: center; font-weight: 600px; display: inline;">Your Goal:</h2><h2 style="text-align: center; font-weight: 500; display: inline;"> Guess the Unkown Pro Cyclist.</h2></div>
+            <div style="padding-bottom: 20px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center;width: 50px; height: 50px; border-radius: 50%; border: 2px solid black; background-color: black; color: white; font-size: 25px;">1</span><h2 style="font-size: 20px; display: inline; padding-left: 15px; font-weight: 500;">Search for a cyclist to make your first guess.</h2> 
+            </div>
+            <div style="padding-bottom: 20px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center;width: 50px; height: 50px; border-radius: 50%; border: 2px solid black; background-color: black; color: white; font-size: 25px;">2</span><h2 style="font-size: 20px; display: inline; padding-left: 15px; font-weight: 500;">Narrow down the peleton with each guess.</h2>
+            </div>
+            <div style="padding-bottom: 20px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; border: 2px solid black; background-color: black; color: white; font-size: 25px;">3</span><h2 style="font-size: 20px; display: inline; padding-left: 15px; font-weight: 500;">Piece together the clues until you guess the cyclist.</h2>
+            </div>
+        </div>
+        <div id="page2" style="display: none;">
+            <h1 style="text-align: center; font-weight: 600px; margin: 0px; padding-bottom: 20px; padding-top: 20px;">Attributes</h1>
+            <h2 style="font-weight: 500px; margin: 0px; padding-bottom: 20px;">All cycling statistic from procyclingstats.</h2>
+            <h2>Pro Debut</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 600px; margin: auto; margin-top: 30px; padding-bottom: 10px;">
+                    <div style="background-color: black; width: 75px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+                        <p>Incorrect</p>
+                    </div>
+                    <div style="background-color: #F0C040; width: 75px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+                        <p>Within 3 years</p>
+                    </div>
+                    <div style="background-color: Green; width: 75px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+                        <p>Correct</p>
+                </div>
+        </div>
+            <h2>Team</h2>
+            <h2>Wins</h2>
+            <h2>Gender</h2>
+            <h2>Specialty</h2>
+            <h2>Nationality</h2>
+        </div>
     </div>
 
     <h2 th:if="${mode == 'Daily'}" style=" padding-top: 20px; padding-bottom: 5px; margin: 0px; text-align: center; font-weight: 650; font-Size: 20px">Welcome to The Daily PROCYCLE</h2>
@@ -277,39 +376,68 @@
 
     playButton.addEventListener("click", function() {
         splashScreen.style.opacity = "0";
-        setTimeout(function() { splashScreen.style.display = "none";}, 500);
+        setTimeout(function() { splashScreen.style.display = "none";}, 300);
         sessionStorage.setItem("hasPlayed", "true");
     });
     var menubutton = document.getElementById("menubutton");
     var sidebar = document.getElementById("sidebar");
-    var closebutton = document.getElementById("closebutton")
-    
-    if (sessionStorage.getItem("menuOpen") === "true") {
-        sidebar.style.display = "flex";
+    var closebutton = document.getElementById("closebutton");
+    var overlat = document.getElementById("overlay");
+
+    if (sessionStorage.getItem("menuOpen") == "true") {
+        sidebar.classList.add("no-transition");
+        sidebar.offsetHeight;
+        sidebar.classList.add("active");
+        overlay.style.display = "flex";
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                sidebar.classList.remove("no-transition");
+            });
+        });
     }   
     menubutton.addEventListener("click", function() {
-        sidebar.style.display = "flex";
+        sidebar.classList.add("active");
         sessionStorage.setItem("menuOpen", "true");
+        overlay.style.display = "flex";
     });
     closebutton.addEventListener("click", function() {
         sessionStorage.removeItem("menuOpen");
-        sidebar.style.display = "none";
+        sidebar.classList.remove("active");
+        overlay.style.display = "none";
     });
 
     var directionsbutton = document.getElementById("directionsbutton");
     var directionsPage = document.getElementById("directionsPage");
-    var close2button = document.getElementById("close2button")
+    var close2button = document.getElementById("close2button");
     
-    if (sessionStorage.getItem("directionsOpen") === "true") {
-        sidebar.style.display = "flex";
+    if (sessionStorage.getItem("directionsOpen") == "true") {
+        directionsPage.classList.add("active");
+        overlay.style.display = "flex";
     }   
     directionsbutton.addEventListener("click", function() {
-        directionsPage.style.display = "flex";
-        sessionStorage.setItem("menuOpen", "true");
+        directionsPage.classList.add("active");
+        sessionStorage.setItem("directionsOpen", "true");
+        overlay.style.display = "flex";
     });
     close2button.addEventListener("click", function() {
-        sessionStorage.removeItem("menuOpen");
-        directionsPage.style.display = "none";
+        directionsPage.classList.remove("active");
+        sessionStorage.removeItem("directionsOpen");
+        overlay.style.display = "none";
+    });
+
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+    const howtoplaybutton = document.getElementById("howtoplaybutton");
+    const attributesbutton = document.getElementById("attributesbutton");
+
+    howtoplaybutton.addEventListener("click", function() {
+        page1.style.display = "block";
+        page2.style.display = "none";
+    });
+
+    attributesbutton.addEventListener("click", function() {
+        page1.style.display = "none";
+        page2.style.display = "block";
     });
 
     var cyclists = /*[[${listOfNames}]]*/ [];
