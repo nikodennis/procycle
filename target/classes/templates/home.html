@@ -49,12 +49,11 @@
         }
         #sidebar {
             box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
-            height: 610px; 
+            height: 640px; 
             width: 620px; 
             z-index: 100; 
-            padding: 30px 30px; 
+            padding: 10px 30px; 
             flex-direction: column;
-            gap: 10px; 
             background-color: white; 
             position: fixed; 
             top: 50%; 
@@ -76,6 +75,14 @@
             transform: translate(-50%, -50%) translateY(0px);
         }
 
+        #howtoplaybutton.active-page-btn, #attributesbutton.active-page-btn {
+            background-color: black;
+            color: white;
+        }
+        #howtoplaybutton, #attributesbutton {
+            background-color: white;
+        }
+
         #directionsPage::-webkit-scrollbar {
             display: none;
         }
@@ -84,10 +91,10 @@
             box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5); 
             overflow-y: overlay;
             scrollbar-width: none;
-            height: 610px;
+            height: 640px;
             width: 620px; 
             z-index: 100; 
-            padding: 30px 30px; 
+            padding: 10px 30px; 
             flex-direction: column; 
             gap: 10px; 
             background-color: white; 
@@ -138,84 +145,105 @@
 
     <div id="sidebar">
         <button id="closebutton" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 600; position: fixed; top: 5px; Right: 10px;">&#x2715;</button>
-        <div>
-            <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null and guessMode == 'Limited' and (guessHistory.size() == null or guessHistory.size() < 10)}" style="display: inline;">
-                <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button>
+        <div style="padding-top: 10px; padding-bottom: 10px; text-align: center;">
+            <form action="/daily" method="post">
+                <button style="width: 180px; border-radius: 20px; height: 40px; font-size: 20px; font-weight: 600; background-color: black; color: white; padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;" onclick="sessionStorage.removeItem('hasPlayed'); location.reload(); sessionStorage.removeItem('menuOpen');">Home</button>
             </form>
-            <form action="/reveal" method="post" th:if="${won == null and guessHistory != null and revealed == null and guessMode == 'Infinite'}" style="display: inline;">
-                <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button>
-            </form>
+        </div>
+        <div style="padding-bottom: 10px; text-align: center;">
             <form th:if="${mode == 'Daily'}" action="/Unlimited" method="post" style="display: inline;">
-                <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Play Unlimited</button>
+                <button style="border-radius: 20px; height: 40px; width: 180px; font-size: 20px; font-weight: 600; background-color: black; color: white; padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;" onclick="sessionStorage.removeItem('menuOpen');">Play Unlimited</button>
             </form>
             <form th:if="${mode == 'Unlimited'}" action="/daily" method="post" style="display: inline;">
-                <button style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('menuOpen');">Play The Daily</button>
+                <button style="border-radius: 20px; height: 40px; width: 180px; font-size: 20px; font-weight: 600; background-color: black; color: white; padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;" onclick="sessionStorage.removeItem('menuOpen');">Play The Daily</button>
             </form>
         </div>
-        <p th:if="${mode == 'Unlimited'}" style="font-size: 20px; font-weight: 600; padding: 0px; margin: 0px;">Play Settings</p>
-        <div>
-            <p th:if="${mode == 'Unlimited'}" style="display: inline; padding-right: 15px;">Difficulty:</p>
+        <div style="text-align: center; padding-bottom: 15px;">
+            <form method="post" style="display: inline;">
+                <button style="border-radius: 20px; height: 40px; width: 180px; font-size: 20px; font-weight: 600; background-color: black; color: white; padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;" onclick="sessionStorage.removeItem('menuOpen');">Follow Us</button>
+            </form>
+        </div>
+        <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
+        <div th:if="${won == null and guessHistory != null and revealed == null}" style="text-align: center; margin-top: 15px;">
+            <form action="/reveal" method="post" th:if="${guessMode == 'Limited' and (guessHistory.size() == null or guessHistory.size() < 10)}" style="display: inline;">
+                <p style="font-size: 15px; margin-bottom: 5px;">Want to give up?</p>
+                <div style="padding-bottom: 10px;"><button style="border-radius: 20px; height: 40px; width: 180px; font-size: 20px; font-weight: 600; background-color: black; color: white; padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button></div>
+                <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
+            </form>
+            <form action="/reveal" method="post" th:if="${guessMode == 'Infinite'}" style="display: inline;">
+                <p style="font-size: 15px; margin-bottom: 5px;">Want to give up?</p>
+                <div style="padding-bottom: 10px;"><button style="border-radius: 20px; height: 40px; width: 180px; font-size: 20px; font-weight: 600; background-color: black; color: white;padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button></div>
+                <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
+            </form>
+        </div>
+        <p th:if="${mode == 'Unlimited'}" style="font-size: 40px; font-weight: 600; margin-top: 0px; margin: 0px; margin-bottom: 0px; padding-bottom: 10px; padding-top: 10px; font-family: Nunito, 'Times New Roman', serif; text-align: center;">Play Settings</h2>
+        <div style="padding-bottom: 10px; font-family: Nunito, 'Times New Roman', serif; text-align: center;">
+            <p th:if="${mode == 'Unlimited'}" style="font-size: 20px; margin-bottom: 10px; margin-top: 0px;">Difficulty</p>
             <form th:if="${mode == 'Unlimited'}" action="/Noob" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${difficulty == 'Noob'} ? '#36a73e' : 'white')">Noob</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${difficulty == 'Noob'} ? '#36a73e' : 'black')">Noob</button>
             </form>
             <form th:if="${mode == 'Unlimited'}" action="/Easy" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${difficulty == 'Easy'} ? '#ffed00' : 'white')">Easy</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${difficulty == 'Easy'} ? '#F0C040' : 'black')">Easy</button>
             </form>
             <form th:if="${mode == 'Unlimited'}" action="/Medium" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${difficulty == 'Medium'} ? '#007bbf' : 'white')">Medium</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${difficulty == 'Medium'} ? '#007bbf' : 'black')">Medium</button>
             </form>
             <form th:if="${mode == 'Unlimited'}" action="/Hard" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${difficulty == 'Hard'} ? '#da2430' : 'white')">Hard</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${difficulty == 'Hard'} ? '#da2430' : 'black')">Hard</button>
             </form>
         </div>
-        <div>
-            <p th:if="${mode == 'Unlimited'}" style="display: inline; padding-right: 15px;">Gender:</p>
+        <div style="padding-bottom: 10px; font-family: Nunito, 'Times New Roman', serif; text-align: center;">
+            <p th:if="${mode == 'Unlimited'}" style="font-size: 20px; padding-bottom: 10px;">Gender:</p>
             <form th:if="${mode == 'Unlimited'}" action="/Both" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Both'} ? '#36a73e' : 'white')">Both</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${genderMode == 'Both'} ? '#36a73e' : 'black')">Both</button>
             </form>
             <form th:if="${mode == 'Unlimited'}" action="/Men" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Men'} ? '#36a73e' : 'white')">Men</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${genderMode == 'Men'} ? '#36a73e' : 'black')">Men</button>
             </form>
             <form th:if="${mode == 'Unlimited'}" action="/Women" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${genderMode == 'Women'} ? '#36a73e' : 'white')">Women</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${genderMode == 'Women'} ? '#36a73e' : 'black')">Women</button>
             </form>
         </div>
-         <div>
-            <p th:if="${mode == 'Unlimited'}" style="display: inline; padding-right: 15px;">Guesses:</p>
+         <div style="padding-bottom: 10px; font-family: Nunito, 'Times New Roman', serif; text-align: center;">
+            <p th:if="${mode == 'Unlimited'}" style="font-size: 20px; padding-bottom: 10px;">Guesses:</p>
             <form th:if="${mode == 'Unlimited'}" action="/Limited" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${guessMode == 'Limited'} ? '#36a73e' : 'white')">Ten</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${guessMode == 'Limited'} ? '#36a73e' : 'black')">Ten</button>
             </form>
             <form th:if="${mode == 'Unlimited'}" action="/Infinite" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
-                <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${guessMode == 'Infinite'} ? '#36a73e' : 'white')">Infinite</button>
+                <button th:style="'border-radius: 20px; height: 30px; width: 100px;font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${guessMode == 'Infinite'} ? '#36a73e' : 'black')">Infinite</button>
             </form>
         </div>
-        <form action="/daily" method="post">
-            <button style="width: fit-content; border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;" onclick="sessionStorage.removeItem('hasPlayed'); location.reload(); sessionStorage.removeItem('menuOpen');">Home</button>
-        </form>
     </div>
 
     <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.2); z-index: 50;"></div>
 
     <div id="directionsPage">
         <button id="close2button" style="background: none; border: none; cursor: pointer; font-size: 30px; font-weight: 600; position: fixed; top: 5px; Right: 10px;">&#x2715;</button>
-        <button id="howtoplaybutton" style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">How to Play</button>
-        <button id="attributesbutton" style="border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; background-color: white; padding-left: 15px; padding-right: 15px; cursor: pointer;">Attributes Explination</button>
+        <div style="text-align: center; padding-top: 5px;">
+            <button id="howtoplaybutton" class="active-page-btn" style="display: inline; border-radius: 20px; height: 40px; font-size: 20px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;">How to Play</button>
+            <button id="attributesbutton" style="display: inline; border-radius: 20px; height: 40px; font-size: 20px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;">Attributes</button>
+        </div>
         <div id="page1" style="display: block;">
-            <h1 style="text-align: center; font-weight: 600px; margin: 0px; padding-bottom: 20px; padding-top: 20px; font-size: 50px;">How To Play</h1>
-            <div style="margin: 0px; padding-bottom: 20px; text-align: center;"><h2 style="text-align: center; font-weight: 600px; display: inline;">Your Goal:</h2><h2 style="text-align: center; font-weight: 500; display: inline;"> Guess the Unkown Pro Cyclist.</h2></div>
-            <div style="padding-bottom: 20px;">
+            <h1 style="text-align: center; font-weight: 600px; margin: 0px; padding-bottom: 15px; padding-top: 10px; font-size: 50px; font-family: Nunito, 'Times New Roman', serif;">How To Play</h1>
+            <div style="margin: 0px; text-align: center; padding-bottom: 10px;"><h2 style="text-align: center; font-weight: 600px; display: inline;">Your Goal:</h2><h2 style="text-align: center; font-weight: 500; display: inline;"> Guess the Unkown Pro Cyclist.</h2></div>
+            <p style="text-align: center; font-weight: 500; margin-top: 0px; padding-bottom: 15px; margin-bottom: 0px; font-family: Nunito, 'Times New Roman', serif;">Each guess reveals that cyclist's attributes and compares them to the attributes of the unkown cyclist.</p>
+            <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
+            <div style="margin-top: 0px; padding-top: 20px; padding-bottom: 10px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center;width: 50px; height: 50px; border-radius: 50%; border: 2px solid black; background-color: black; color: white; font-size: 25px;">1</span><h2 style="font-size: 20px; display: inline; padding-left: 15px; font-weight: 500;">Search for a cyclist to make your first guess.</h2> 
             </div>
-            <div style="padding-bottom: 20px;">
+            <img src="/Guess1.png" style="width: 300px; height: 243px; object-fit: contain; display: block; margin: auto;">
+            <div style="padding-top: 30px; padding-bottom: 10px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center;width: 50px; height: 50px; border-radius: 50%; border: 2px solid black; background-color: black; color: white; font-size: 25px;">2</span><h2 style="font-size: 20px; display: inline; padding-left: 15px; font-weight: 500;">Narrow down the peleton with each guess.</h2>
             </div>
-            <div style="padding-bottom: 20px;">
+            <img src="/Guess2.png" style="width: 300px; height: 240px; object-fit: contain; display: block; margin: auto;">
+            <div style="padding-top: 30px; padding-bottom: 10px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; border: 2px solid black; background-color: black; color: white; font-size: 25px;">3</span><h2 style="font-size: 20px; display: inline; padding-left: 15px; font-weight: 500;">Piece together the clues until you guess the cyclist.</h2>
             </div>
+            <img src="/Guess3.png" style="width: 300px; height: 200px; object-fit: contain; display: block; margin: auto;">
         </div>
         <div id="page2" style="display: none;">
             <div style="text-align: center;">
-                <h1 style="font-weight: 600px; margin: 0px; padding-top: 20px; font-size: 50px;">Attributes</h1>
+                <h1 style="font-weight: 600px; margin: 0px; padding-top: 10px; font-size: 50px; font-family: Nunito, 'Times New Roman', serif;">Attributes</h1>
                 <p style="font-weight: 600; font-size: 20px">All cyclist statistics from procyclingstats.com.</p>
                 <p style="font-weight: 500; color: gray;">A big thanks to procyclingstats for making this game possible through the statistics on their website.</p>
                 <p style="font-weight: 600; font-size: 20px;">All attributes acurate as of the start of the 2026 season and should be updated anually.</p>
@@ -328,25 +356,25 @@
         </div>
     </div>
 
-    <h2 th:if="${mode == 'Daily'}" style=" padding-top: 20px; padding-bottom: 5px; margin: 0px; text-align: center; font-weight: 650; font-Size: 20px">Welcome to The Daily PROCYCLE</h2>
-    <h2 th:if="${mode == 'Unlimited'}" style=" padding-top: 20px; padding-bottom: 5px; margin: 0px; text-align: center; font-weight: 650; font-Size: 20px;">Welcome to Unlimited PROCYCLE</h2>
+    <h2 th:if="${mode == 'Daily'}" style=" padding-top: 10px; padding-bottom: 10px; margin: 0px; text-align: center; font-weight: 650; font-Size: 20px; font-family: Nunito, 'Times New Roman', serif;">Welcome to The Daily PROCYCLE</h2>
+    <h2 th:if="${mode == 'Unlimited'}" style=" padding-top: 10px; padding-bottom: 10px; margin: 0px; text-align: center; font-weight: 650; font-Size: 20px; font-family: Nunito, 'Times New Roman', serif;">Welcome to Unlimited PROCYCLE</h2>
 
-    <div style="text-align: center; padding-bottom: 15px; padding-top: 10px;">
-        <form th:if="${mode == 'Unlimited'}" action="/Noob" method="post" style="display: inline;">
-            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${difficulty == 'Noob'} ? '#36a73e' : 'white')">Noob</button>
+    <div th:if="${mode == 'Unlimited'}" style="text-align: center; padding-bottom: 15px; padding-top: 5px;">
+        <form action="/Noob" method="post" style="display: inline;">
+            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${difficulty == 'Noob'} ? '#36a73e' : 'black')">Noob</button>
         </form>
-        <form th:if="${mode == 'Unlimited'}" action="/Easy" method="post" style="display: inline;">
-            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${difficulty == 'Easy'} ? '#ffed00' : 'white')">Easy</button>
+        <form action="/Easy" method="post" style="display: inline;">
+            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${difficulty == 'Easy'} ? '#F0C040' : 'black')">Easy</button>
         </form>
-        <form th:if="${mode == 'Unlimited'}" action="/Medium" method="post" style="display: inline;">
-            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${difficulty == 'Medium'} ? '#007bbf' : 'white')">Medium</button>
+        <form action="/Medium" method="post" style="display: inline;">
+            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${difficulty == 'Medium'} ? '#007bbf' : 'black')">Medium</button>
         </form>
-        <form th:if="${mode == 'Unlimited'}" action="/Hard" method="post" style="display: inline;">
-            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; background-color: ' + (${difficulty == 'Hard'} ? '#da2430' : 'white')">Hard</button>
+        <form action="/Hard" method="post" style="display: inline;">
+            <button th:style="'border-radius: 20px; height: 30px; font-size: 15px; font-weight: 600; padding-left: 15px; padding-right: 15px; cursor: pointer; color: white; background-color: ' + (${difficulty == 'Hard'} ? '#da2430' : 'black')">Hard</button>
         </form>
     </div>
 
-    <form action="/guess" method="post" style="text-align: center; margin: 0px;" th:if="${won == null and revealed == null and (guessMode == 'Infinite' or guessHistory == null or guessHistory.size() < 10)}">
+    <form action="/guess" method="post" style="text-align: center; margin: 0px; margin-top: 0px" th:if="${won == null and revealed == null and (guessMode == 'Infinite' or guessHistory == null or guessHistory.size() < 10)}">
         <div style="position: relative; display: inline-block;">
             <input type="text" name="guess" id="guessInput" placeholder="Type a Cyclist..." autocomplete="off" style="border-radius: 20px; height: 40px; font-size: 15px; font-weight: 600; background-color: black; color: white; font-family: Montserrat, sans-serif; padding-left: 15px; box-sizing: border-box; vertical-align: middle; cursor: pointer;"/>
             <div id="suggestions" style="position: absolute; background-color: white; width: 300px; left: 50%; transform: translateX(-50%); z-index: 10; max-height: 200px; overflow-y: auto;"></div>
@@ -423,7 +451,7 @@
             </div>
 
             <div th:style="'background-color: ' + ${guess.colors[2]} + '; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;'">
-                <p style="font-weight: 600;">Professional Wins</p>
+                <p style="font-weight: 600;">Pro Wins</p>
                 <p>
                     <span th:text="${guess.guessedCyclist.wins}" style="font-size: 20px;"></span>
                     <span th:text="${guess.arrows[1]}" style="font-size: 20px;"></span>
@@ -551,6 +579,8 @@
         document.body.style.overflow = "hidden";
         page1.style.display = "block";
         page2.style.display = "none";
+        howtoplaybutton.classList.add("active-page-btn");
+        attributesbutton.classList.remove("active-page-btn");
     });
     close2button.addEventListener("click", function() {
         directionsPage.classList.remove("active");
@@ -565,11 +595,15 @@
     howtoplaybutton.addEventListener("click", function() {
         page1.style.display = "block";
         page2.style.display = "none";
+        howtoplaybutton.classList.add("active-page-btn");
+        attributesbutton.classList.remove("active-page-btn");
     });
 
     attributesbutton.addEventListener("click", function() {
         page1.style.display = "none";
         page2.style.display = "block";
+        attributesbutton.classList.add("active-page-btn");
+        howtoplaybutton.classList.remove("active-page-btn");
     });
 
     var cyclists = /*[[${listOfNames}]]*/ [];
