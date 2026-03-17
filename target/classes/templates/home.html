@@ -5,6 +5,7 @@
     <title>ProCycle</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;450;500;550;600;650;700;750;800;850;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(to right, lightgray 0, white 45% 55%, lightgray 100%);
@@ -60,8 +61,15 @@
         #sidebar.no-transition {
             transition: none;
         }
+
+        #sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
         #sidebar {
             box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+            overflow-y: overlay;
+            scrollbar-width: none;
             height: 640px; 
             width: 620px; 
             z-index: 100; 
@@ -180,17 +188,17 @@
         <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
         <div th:if="${won == null and guessHistory != null and revealed == null}" style="text-align: center;">
             <form action="/reveal" method="post" th:if="${guessMode == 'Limited' and (guessHistory.size() == null or guessHistory.size() < 10)}" style="display: inline;">
-                <p style="font-size: 15px; margin-bottom: 5px; margin-top: 5px;">Want to give up?</p>
+                <p style="font-size: 15px; margin-bottom: 5px; margin-top: 5px; font-family: Nunito, 'Times New Roman', serif;">Want to give up?</p>
                 <div style="padding-bottom: 10px;"><button style="border-radius: 20px; height: 40px; width: 180px; font-size: 20px; font-weight: 600; background-color: black; color: white; padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button></div>
                 <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
             </form>
             <form action="/reveal" method="post" th:if="${guessMode == 'Infinite'}" style="display: inline;">
-                <p style="font-size: 15px; margin-bottom: 5px; margin-top: 5px;">Want to give up?</p>
+                <p style="font-size: 15px; margin-bottom: 5px; margin-top: 5px; font-family: Nunito, 'Times New Roman', serif;">Want to give up?</p>
                 <div style="padding-bottom: 10px;"><button style="border-radius: 20px; height: 40px; width: 180px; font-size: 20px; font-weight: 600; background-color: black; color: white;padding-left: 15px; padding-right: 15px; cursor: pointer; font-family: Nunito, 'Times New Roman', serif;" onclick="sessionStorage.removeItem('menuOpen');">Reveal Answer</button></div>
                 <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
             </form>
         </div>
-        <p th:if="${mode == 'Unlimited'}" style="font-size: 30px; font-weight: 600; margin: 0px; padding: 0px; padding-top: 5px; font-family: Nunito, 'Times New Roman', serif; text-align: center;">Play Settings</h2>
+        <p th:if="${mode == 'Unlimited'}" style="font-size: 30px; font-weight: 600; margin: 0px; padding: 0px; padding-top: 10px; font-family: Nunito, 'Times New Roman', serif; text-align: center;">Play Settings</h2>
         <div style="font-family: Nunito, 'Times New Roman', serif; text-align: center;">
             <p th:if="${mode == 'Unlimited'}" style="font-size: 20px; margin: 0px; padding-bottom: 5px; padding-top: 5px;">Difficulty</p>
             <form th:if="${mode == 'Unlimited'}" action="/Noob" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
@@ -218,18 +226,24 @@
                 <button class="menu-button" th:style="'background-color: ' + (${genderMode == 'Women'} ? '#36a73e' : 'black')">Women</button>
             </form>
         </div>
-         <div style="font-family: Nunito, 'Times New Roman', serif; text-align: center;">
-            <p th:if="${mode == 'Unlimited'}" style="font-size: 20px; margin: 0px; padding-bottom: 5px; padding-top: 5px;">Guesses</p>
-            <form th:if="${mode == 'Unlimited'}" action="/Limited" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
+        <div th:if="${mode == 'Unlimited'}" style="font-family: Nunito, 'Times New Roman', serif; text-align: center; padding-bottom: 20px;">
+            <p style="font-size: 20px; margin: 0px; padding-bottom: 5px; padding-top: 5px;">Guesses</p>
+            <form action="/Limited" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
                 <button class="menu-button" th:style="'background-color: ' + (${guessMode == 'Limited'} ? '#36a73e' : 'black')">Ten</button>
             </form>
-            <form th:if="${mode == 'Unlimited'}" action="/Infinite" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
+            <form action="/Infinite" method="post" style="display: inline;" onclick="sessionStorage.setItem('menuOpen', 'true');">
                 <button class="menu-button" th:style="'background-color: ' + (${guessMode == 'Infinite'} ? '#36a73e' : 'black')">Infinite</button>
             </form>
         </div>
         <div th:if="${mode == 'Unlimited'}"><hr style="width: 620px; border: 1px solid lightgray; margin: auto;"></div>
-        <p style="text-align:center; margin: 0px; padding-bottom: 5px; padding-top: 5px;">Next PROCYCLE</p>
-        <p style="text-align:center; margin: 0px; font-family: monospace;"><span id="timer"></span></p>
+        <p style="Text-align: center; font-family: Nunito, 'Times New Roman', serif;">Find a bug? Have a suggestions? Let me know!</p>
+        <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
+        <p style="Text-align: center; font-family: Nunito, 'Times New Roman', serif;">ProCycle was heavily inspired by Spotle and Wordle.</p>
+        <p style="Text-align: center; font-family: Nunito, 'Times New Roman', serif;">A big thanks to procyclingstats.com for making this game possible through the statistics on their website.</p>
+        <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
+        <p style="text-align:center; margin: 0px; padding-bottom: 5px; padding-top: 10px; font-family: Nunito, 'Times New Roman', serif;">Next PROCYCLE</p>
+        <p style="text-align:center; margin: 0px; font-family: 'Roboto Mono', monospace;"><span id="timer"></span></p>
+        <p style="text-align: center; font-family: Nunito, 'Times New Roman', serif;">Made by Niko (insert Github)</p>
     </div>
 
     <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.2); z-index: 50;"></div>
