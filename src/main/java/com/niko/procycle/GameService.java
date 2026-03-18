@@ -3,6 +3,7 @@ package com.niko.procycle;
 import java.util.ArrayList;
 import java.util.Random;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -192,7 +193,7 @@ public class GameService {
     }
 
     public Cyclist getDailyCyclist(){
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("America/Denver"));
         int seed = today.getYear() * 1000 + today.getDayOfYear();
         Random random = new Random(seed);
         int randomIndex = random.nextInt(getFilteredList().size());

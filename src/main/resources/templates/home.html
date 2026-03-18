@@ -2,7 +2,7 @@
 <html style="margin: 0; padding: 0;">
 <!mvn spring-boot:run>
 <head>
-    <title>ProCycle</title>
+    <title>PROCYCLE: Guess the Pro Cyclist</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;450;500;550;600;650;700;750;800;850;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -137,6 +137,19 @@
             opacity: 1;
             visibility: visible;
             transform: translate(-50%, -50%) translateY(0px);
+        }
+
+        .tile {
+            transition: transform 0.3s ease-in;
+        }
+
+        .tile.flip-out {
+            transform: rotateX(90deg);
+        }
+
+        .tile.flip-in {
+            transform: rotateX(0deg);
+            transition: transform 0.3s ease-out;
         }
     </style>
 </head>
@@ -430,27 +443,27 @@
         </div>
         <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 600px; margin: auto; margin-top: 0px; margin-bottom: 20px;">
             <p id="revealedName" style="font-size: 35px; font-weight: 700; color: black; margin-bottom: 25px; width: 100%; text-align: center;">Name</p>
-            <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;"> 
+            <div class="revealed-tile tile" style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;"> 
                 <p style="font-weight: 600;">Pro Debut</p>
                 <p id="revealedProDebut" style="font-size: 20px;"></p>
             </div>
-            <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+            <div class="revealed-tile tile" style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
                 <p style="font-weight: 600;">Team</p>
                 <p id="revealedTeam" style="font-size: 20px;"></p>
             </div>
-            <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+            <div class="revealed-tile tile" style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
                 <p style="font-weight: 600;">Professional Wins</p>
                 <p id="revealedWins" style="font-size: 20px;"></p>
             </div>
-            <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+            <div class="revealed-tile tile" style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
                 <p style="font-weight: 600;">Gender</p>
                 <p id="revealedGender" style="font-size: 20px;"></p>
             </div>
-            <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+            <div class="revealed-tile tile" style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
                 <p style="font-weight: 600;">Specialty</p>
                 <p id="revealedSpecialty" style="font-size: 20px;"></p>
             </div>
-            <div style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
+            <div class="revealed-tile tile" style="background-color: green; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;">
                 <p style="font-weight: 600;">Nationality</p>
                 <p id="revealedNationality" style="font-size: 20px;"></p>
             </div>
@@ -961,6 +974,8 @@
                     document.getElementById("revealedGender").textContent = data.revealedGender;
                     document.getElementById("revealedSpecialty").textContent = data.revealedSpecialty;
                     document.getElementById("revealedNationality").textContent = data.revealedNationality;
+                    animateRevealedTiles()
+
                     document.getElementById("guessTracker").style.display = "none";
                     document.getElementById("revealSection").style.display = "none";
                     document.getElementById("legend").style.display = "none";
@@ -973,6 +988,21 @@
             });
         });
         
+        function animateRevealedTiles() {
+            document.querySelectorAll(".revealed-tile").forEach(function(tile) {
+                tile.style.backgroundColor = "Black";
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        tile.classList.add("flip-out");
+                        setTimeout(function() {
+                            tile.style.backgroundColor = "Green";
+                            tile.classList.remove("flip-out");
+                            tile.classList.add("flip-in");
+                        }, 300);
+                    });
+                });
+            });
+        }
 
         function addGuessRow(data) {
             const container = document.getElementById("guessContainer");
@@ -997,8 +1027,10 @@
 
             attributes.forEach(function(attr, index) {
                 const box = document.createElement("div");
-                box.style.cssText = "background-color: " + data.colors[index] + "; width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;";
-                
+                box.classList.add("tile");
+                box.style.cssText = "width: 150px; padding: 10px; margin: 5px; text-align: center; color: white; border-radius: 10px;";
+                box.style.backgroundColor = "black";
+
                 const label = document.createElement("p");
                 label.textContent = attr.label;
                 label.style.fontWeight = "600";
@@ -1010,8 +1042,20 @@
                 box.appendChild(label);
                 box.appendChild(value);
                 row.appendChild(box);
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        if (data.colors[index] !== "Black") {
+                            box.classList.add("flip-out");
+                            setTimeout(function() {
+                                box.style.backgroundColor = data.colors[index];
+                                box.classList.remove("flip-out");
+                                box.classList.add("flip-in");
+                            }, 300);
+                        }
+                    });
+                });
             });
-                container.prepend(row);
+            container.prepend(row);
         }
 
         if (guessForm) {
@@ -1043,6 +1087,7 @@
                         document.getElementById("revealedGender").textContent = data.revealedGender;
                         document.getElementById("revealedSpecialty").textContent = data.revealedSpecialty;
                         document.getElementById("revealedNationality").textContent = data.revealedNationality;
+                        animateRevealedTiles()
                     }
 
                     const errorMessage = document.getElementById("errorMessage");
