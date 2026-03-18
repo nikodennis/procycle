@@ -229,8 +229,8 @@
                     <button class="infiniteButton menu-button" th:style="'background-color: ' + (${guessMode == 'Infinite'} ? '#36a73e' : 'black')">Infinite</button>
                 </div>
             </div>
+            <div><hr style="width: 620px; border: 1px solid lightgray; margin: auto;"></div>
         </div>
-        <div th:if="${mode == 'Unlimited'}"><hr style="width: 620px; border: 1px solid lightgray; margin: auto;"></div>
         <p style="Text-align: center; font-family: Nunito, 'Times New Roman', serif;">Find a bug? Have a suggestions? Let me know!</p>
         <hr style="width: 620px; border: 1px solid lightgray; margin: auto;">
         <p style="Text-align: center; font-family: Nunito, 'Times New Roman', serif;">ProCycle was heavily inspired by Spotle and Wordle.</p>
@@ -410,7 +410,7 @@
 
     <p id="guessTracker" style="display: block;font-size: 12px; text-align: center; margin: 0px; padding-top: 6px; color: gray"></p>
     
-    <div th:if="${mode == 'Daily' and guessHistory == null}" style="text-align: center;">
+    <div id="dailyIntro" style="text-align: center; display: block;">
         <p style="margin: 0px; padding-top: 25px; font-weight: 550; font-size: 15px; font-family: Nunito, 'Times New Roman', serif;">Guess the cyclist of the day.</p>
         <p style="margin: 0px; padding-top: 20px; padding-bottom: 15px; font-weight: 550; font-size: 15px; font-family: Nunito, 'Times New Roman', serif;">Search for a cyclist to make your first.</p>
     </div>
@@ -753,6 +753,7 @@
                 document.getElementById("difficulties").style.display = "block";
                 document.getElementById("unlimitedButtonDiv").style.display = "none";
                 document.getElementById("dailyButtonDiv").style.display = "inline";
+                document.getElementById("dailyIntro").style.display = "none";
             } else {
                 document.getElementById("settings").style.display = "none";
                 document.getElementById("difficulties").style.display = "none";
@@ -807,6 +808,7 @@
                     sidebar.classList.remove("active");
                     overlay.style.display = "none";
                     sessionStorage.removeItem('menuOpen');
+                    document.body.style.overflow = "";
                     resetGame();
                 });
             });
@@ -952,20 +954,21 @@
                 .then(function(response) { return response.json(); })
                 .then(function(data) {
                     document.getElementById("revealedMessage").style.display = "block";
-                        document.getElementById("revealedName").textContent = data.revealedName;
-                        document.getElementById("revealedProDebut").textContent = data.revealedDebut;
-                        document.getElementById("revealedTeam").textContent = data.revealedTeam;
-                        document.getElementById("revealedWins").textContent = data.revealedWins;
-                        document.getElementById("revealedGender").textContent = data.revealedGender;
-                        document.getElementById("revealedSpecialty").textContent = data.revealedSpecialty;
-                        document.getElementById("revealedNationality").textContent = data.revealedNationality;
-                        guessForm.style.display = "none";
-                        document.getElementById("revealSection").style.display = "none";
-                        document.getElementById("legend").style.display = "none";
-                        sidebar.classList.remove("active");
-                        overlay.style.display = "none";
-                        sessionStorage.removeItem('menuOpen');
-                        document.body.style.overflow = "";
+                    document.getElementById("revealedName").textContent = data.revealedName;
+                    document.getElementById("revealedProDebut").textContent = data.revealedDebut;
+                    document.getElementById("revealedTeam").textContent = data.revealedTeam;
+                    document.getElementById("revealedWins").textContent = data.revealedWins;
+                    document.getElementById("revealedGender").textContent = data.revealedGender;
+                    document.getElementById("revealedSpecialty").textContent = data.revealedSpecialty;
+                    document.getElementById("revealedNationality").textContent = data.revealedNationality;
+                    document.getElementById("guessTracker").style.display = "none";
+                    document.getElementById("revealSection").style.display = "none";
+                    document.getElementById("legend").style.display = "none";
+                    guessForm.style.display = "none";
+                    sidebar.classList.remove("active");
+                    overlay.style.display = "none";
+                    sessionStorage.removeItem('menuOpen');
+                    document.body.style.overflow = "";
                 });
             });
         });
@@ -1030,7 +1033,6 @@
                     if (data.won) {
                         document.getElementById("wonMessage").style.display = "block";
                         document.getElementById("guessCountText").textContent = "Guesses: " + (guessCount + 1);
-                        guessForm.style.display = "none";
                     }
                     if (data.revealed) {
                         document.getElementById("revealedMessage").style.display = "block";
@@ -1041,8 +1043,8 @@
                         document.getElementById("revealedGender").textContent = data.revealedGender;
                         document.getElementById("revealedSpecialty").textContent = data.revealedSpecialty;
                         document.getElementById("revealedNationality").textContent = data.revealedNationality;
-                        guessForm.style.display = "none";
                     }
+
                     const errorMessage = document.getElementById("errorMessage");
                     if (data.error) {
                         errorMessage.textContent = data.error;
@@ -1060,14 +1062,15 @@
                         guessCount++;
                         document.getElementById("revealSection").style.display = "block";
                         document.getElementById("legend").style.display = "flex";
+                        document.getElementById("dailyIntro").style.display = "none";
                         if (guessCount >= 2) {
                             document.getElementById("bottomBorder").style.display = "block";
                         }
-                        if (data.won || data.revealed) {
+                        if (data.won || data.revealed){
                             document.getElementById("guessTracker").style.display = "none";
-                            guessForm.style.display = "none";
-                            document.getElementById("legend").style.display = "none";
                             document.getElementById("revealSection").style.display = "none";
+                            document.getElementById("legend").style.display = "none";
+                            guessForm.style.display = "none";
                         }
                     }
                 })
