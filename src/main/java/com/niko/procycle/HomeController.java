@@ -25,6 +25,19 @@ public class HomeController {
         model.addAttribute("difficulty", theData.getDifficulty());
         model.addAttribute("genderMode", theData.getGenderMode());
         model.addAttribute("guessMode", theData.getGuessMode());
+        model.addAttribute("guessHistory", theData.getGuesses());
+        model.addAttribute("won", theData.isWon());
+        model.addAttribute("revealed", theData.isRevealed());
+        if (theData.isRevealed()) {
+            Cyclist answer = theData.getCurrentAnswer();
+            model.addAttribute("revealedName", answer.getName());
+            model.addAttribute("revealedDebut", answer.getDebut());
+            model.addAttribute("revealedTeam", answer.getTeam());
+            model.addAttribute("revealedWins", answer.getWins());
+            model.addAttribute("revealedGender", answer.getGender());
+            model.addAttribute("revealedSpecialty", answer.getSpecialty());
+            model.addAttribute("revealedNationality", answer.getNationality());
+        }
         return "home";
     }
 
@@ -55,10 +68,10 @@ public class HomeController {
         Guess aGuess = new Guess(guessedCyclist, colors, arrows);
         ArrayList<Guess> guessHistory = theData.guessHistory(aGuess);
         model.addAttribute("guessHistory", guessHistory);
-        if (guessedCyclist.getName().equals(answerCyclist.getName())){
+        if (theData.isWon()) {
             model.addAttribute("won", true);
         }
-        if (theData.getGuesses().size() >= 10 && !guessedCyclist.getName().equals(answerCyclist.getName()) && theData.getGuessMode().equals("Limited")) {
+        if (theData.isRevealed()) {
             model.addAttribute("revealedCyclist", theData.getCurrentAnswer());
             model.addAttribute("revealed", true);
         }
@@ -87,9 +100,9 @@ public class HomeController {
         response.put("gender", guessedCyclist.getGender());
         response.put("specialty", guessedCyclist.getSpecialty());
         response.put("nationality", guessedCyclist.getNationality());
-        response.put("won", guessedCyclist.getName().equals(answerCyclist.getName()));
-        response.put("revealed", theData.getGuesses().size() >= 10 && !guessedCyclist.getName().equals(answerCyclist.getName()) && theData.getGuessMode().equals("Limited"));
-        if (theData.getGuesses().size() >= 10 && !guessedCyclist.getName().equals(answerCyclist.getName()) && theData.getGuessMode().equals("Limited")) {
+        response.put("won", theData.isWon());
+        response.put("revealed", theData.isRevealed());
+        if (theData.isRevealed()) {
             response.put("revealedName", answerCyclist.getName());
             response.put("revealedDebut", answerCyclist.getDebut());
             response.put("revealedTeam", answerCyclist.getTeam());
@@ -180,6 +193,7 @@ public class HomeController {
     @ResponseBody
     public Map<String, Object> revealAjax(){
         Cyclist answer = theData.getCurrentAnswer();
+        theData.setManuallyRevealed(true);
         Map<String, Object> response = new HashMap<>();
         response.put("revealedName", answer.getName());
         response.put("revealedDebut", answer.getDebut());

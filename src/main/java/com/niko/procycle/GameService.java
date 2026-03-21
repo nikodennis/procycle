@@ -306,7 +306,21 @@ public class GameService {
     public void clearHistory(){
         Guesses.clear();
     }
-    public static void main(String[] args){
+
+    public boolean isWon() {
+        if (getGuesses().isEmpty()) return false;
+        Guess lastGuess = getGuesses().get(0);
+        return lastGuess.getGuessedCyclist().getName().equals(getCurrentAnswer().getName());
+    }
+    
+    private boolean manuallyRevealed = false;
+
+    public void setManuallyRevealed(boolean revealed) {
+        manuallyRevealed = revealed;
+    }
+
+    public boolean isRevealed() {
+        return manuallyRevealed || (getGuesses().size() >= 10 && !isWon() && getGuessMode().equals("Limited"));
     }
 
 

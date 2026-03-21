@@ -302,8 +302,8 @@
 
 
 
-    <h2 th:if="${mode == 'Daily'}" class="welcome">Welcome to The Daily PROCYCLE</h2>
-    <h2 th:if="${mode == 'Unlimited'}" class="welcome">Welcome to Unlimited PROCYCLE</h2>
+    <h2 id="dailyWelcome" class="welcome">Welcome to The Daily PROCYCLE</h2>
+    <h2 id="unlimitedWelcome" class="welcome">Welcome to Unlimited PROCYCLE</h2>
 
 
     <div id="difficulties" th:style="${mode == 'Unlimited'} ? 'display: block; text-align: center; padding-bottom: 15px; padding-top: 5px;' : 'display: none; text-align: center; padding-bottom: 15px; padding-top: 5px;'">
@@ -404,6 +404,19 @@
     let guessMode = /*[[${guessMode}]]*/ '';
     let gameMode = /*[[${mode}]]*/ '';
     var cyclists = /*[[${listOfNames}]]*/ [];
+    let genderMode = /*[[${genderMode}]]*/ '';
+    let difficulty = /*[[${difficulty}]]*/ '';
+    var initialGuesses = /*[[${guessHistory}]]*/ [];
+    let won = /*[[${won}]]*/ false;
+    let revealed = /*[[${revealed}]]*/ false;
+    let revealedName = /*[[${revealedName}]]*/ '';
+    let revealedDebut = /*[[${revealedDebut}]]*/ '';
+    let revealedTeam = /*[[${revealedTeam}]]*/ '';
+    let revealedWins = /*[[${revealedWins}]]*/ 0;
+    let revealedGender = /*[[${revealedGender}]]*/ '';
+    let revealedSpecialty = /*[[${revealedSpecialty}]]*/ '';
+    let revealedNationality = /*[[${revealedNationality}]]*/ '';
 </script>
 <script src="/script.js"></script>
+<!--fuser -k 8080/tcp-->
 </body>

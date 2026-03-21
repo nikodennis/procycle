@@ -227,12 +227,15 @@ function updateTimer() {
 setInterval(updateTimer, 1000);
 updateTimer();
 
-const guessForm = document.getElementById("guessForm");
-
-if (guessMode === "Limited") {
-    document.getElementById("guessTracker").textContent = "Guess 1 of 10";
-    document.getElementById("guessTracker").style.display = "block";
+if (gameMode === "Daily") {
+    document.getElementById("dailyWelcome").style.display = "block";
+    document.getElementById("unlimitedWelcome").style.display = "none";
 }
+if (gameMode === "Unlimited") {
+    document.getElementById("dailyWelcome").style.display = "none";
+    document.getElementById("unlimitedWelcome").style.display = "block";
+}
+const guessForm = document.getElementById("guessForm");
 
 function resetGame() {
     document.getElementById("guessContainer").innerHTML = "";
@@ -259,11 +262,15 @@ function resetGame() {
         document.getElementById("unlimitedButtonDiv").style.display = "none";
         document.getElementById("dailyButtonDiv").style.display = "inline";
         document.getElementById("dailyIntro").style.display = "none";
+        document.getElementById("unlimitedWelcome").style.display = "block";
+        document.getElementById("dailyWelcome").style.display = "none";
     } else {
         document.getElementById("settings").style.display = "none";
         document.getElementById("difficulties").style.display = "none";
         document.getElementById("unlimitedButtonDiv").style.display = "inline";
         document.getElementById("dailyButtonDiv").style.display = "none";
+        document.getElementById("unlimitedWelcome").style.display = "none";
+        document.getElementById("dailyWelcome").style.display = "block";
     }
 }
 
@@ -627,14 +634,14 @@ if (guessForm) {
             } else {
                 errorMessage.style.display = "none";
                 document.getElementById("guessInput").value = "";
+                addGuessRow(data);
+                guessCount++;
                 if (guessMode === "Limited") {
                     document.getElementById("guessTracker").style.display = "block";
-                    document.getElementById("guessTracker").textContent = "Guess " + (guessCount + 2) + " of 10";
+                    document.getElementById("guessTracker").textContent = "Guess " + (guessCount + 1) + " of 10";
                 } else {
                     document.getElementById("guessTracker").style.display = "none";
                 }
-                addGuessRow(data);
-                guessCount++;
                 document.getElementById("revealSection").style.display = "block";
                 document.getElementById("legend").style.display = "flex";
                 document.getElementById("dailyIntro").style.display = "none";
@@ -650,4 +657,69 @@ if (guessForm) {
             }
         })
     });
+}
+
+
+//Reload Backup Below
+
+
+updateDifficultyButtons(difficulty.toLowerCase() + "Button", getDifficultyColor(difficulty));
+updateGenderButtons(genderMode.toLowerCase() + "Button");
+updateGuessModeButtons(guessMode === "Limited" ? "limitedButton" : "infiniteButton");
+
+initialGuesses.reverse().forEach(function(guess) {
+    addGuessRow({
+        name: guess.guessedCyclist.name,
+        colors: guess.colors,
+        arrows: guess.arrows,
+        debut: guess.guessedCyclist.debut,
+        team: guess.guessedCyclist.team,
+        wins: guess.guessedCyclist.wins,
+        gender: guess.guessedCyclist.gender,
+        specialty: guess.guessedCyclist.specialty,
+        nationality: guess.guessedCyclist.nationality
+    });
+    guessCount++;
+});
+if (guessCount > 0) {
+    document.getElementById("legend").style.display = "flex";
+    document.getElementById("revealSection").style.display = "block";
+}
+if (guessCount > 0 || gameMode == "Unlimited"){
+    document.getElementById("dailyIntro").style.display = "none";
+}
+if (guessMode == "Limited"){
+    document.getElementById("guessTracker").style.display = "block";
+    document.getElementById("guessTracker").textContent = "Guess " + (guessCount + 1) + " of 10";
+}
+if (guessCount >= 2) {
+    document.getElementById("bottomBorder").style.display = "block";
+}
+if (won) {
+    document.getElementById("wonMessage").style.display = "block";
+    document.getElementById("guessCountText").textContent = "Guesses: " + guessCount;
+    document.getElementById("guessTracker").style.display = "none";
+    document.getElementById("revealSection").style.display = "none";
+    document.getElementById("legend").style.display = "none";
+    guessForm.style.display = "none";
+}
+if (revealed) {
+    document.getElementById("revealedMessage").style.display = "block";
+    document.getElementById("revealedName").textContent = revealedName;
+    document.getElementById("revealedProDebut").textContent = revealedDebut;
+    document.getElementById("revealedTeam").textContent = revealedTeam;
+    document.getElementById("revealedWins").textContent = revealedWins;
+    document.getElementById("revealedGender").textContent = revealedGender;
+    document.getElementById("revealedSpecialty").textContent = revealedSpecialty;
+    document.getElementById("revealedNationality").textContent = revealedNationality;
+    const revealedFlagEl = document.getElementById("revealedFlag");
+    revealedFlagEl.innerHTML = "";
+    revealedFlagEl.appendChild(getFlag(revealedNationality));
+    animateRevealedTiles()
+
+    document.getElementById("revealedMessage").style.display = "block";
+    document.getElementById("guessTracker").style.display = "none";
+    document.getElementById("revealSection").style.display = "none";
+    document.getElementById("legend").style.display = "none";
+    guessForm.style.display = "none";
 }
