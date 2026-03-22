@@ -5,6 +5,7 @@ import java.util.Random;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Collections;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.InputStream;
@@ -163,6 +164,7 @@ public class GameService {
         for (Cyclist i: getFilteredList()){
             listOfNames.add(i.getName());
         }
+        Collections.sort(listOfNames);
         return listOfNames;
     }
 
