@@ -1,6 +1,7 @@
 package com.niko.procycle;
 
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.ui.Model;
 
 @Controller
 public class HomeController {
-
     GameService theData = new GameService();
 
 
@@ -40,6 +40,8 @@ public class HomeController {
         return "home";
     }
 
+    ArrayList<Cyclist> alreadyGuessedList = new ArrayList<>();
+
     @PostMapping("/guessAjax")
     @ResponseBody
     public Map<String, Object> handleGuessAjax(@RequestParam String guess) {
@@ -48,6 +50,11 @@ public class HomeController {
         if (guessedCyclist == null) {
             return Map.of("error", "Cyclist not found, try again!");
         }
+        if (alreadyGuessedList.contains(guessedCyclist)) {
+            return Map.of("repeat", "Already Guessed.");
+        }
+        
+        alreadyGuessedList.add(guessedCyclist);
 
         Cyclist answerCyclist = theData.getCurrentAnswer();
         String[] arrows = theData.getArrows(guessedCyclist, answerCyclist);
