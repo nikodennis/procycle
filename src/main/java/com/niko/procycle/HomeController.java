@@ -57,11 +57,12 @@ public class HomeController {
         Cyclist answerCyclist = theData.getCurrentAnswer();
         String[] arrows = theData.getArrows(guessedCyclist, answerCyclist);
         String[] colors = theData.compareGuess(guessedCyclist, answerCyclist);
-
-
+        
         Guess aGuess = new Guess(guessedCyclist, colors, arrows);
         theData.guessHistory(aGuess);
         alreadyGuessedList.add(guessedCyclist);
+        
+
         Map<String, Object> response = new HashMap<>();
         response.put("name", guessedCyclist.getName());
         response.put("colors", colors);

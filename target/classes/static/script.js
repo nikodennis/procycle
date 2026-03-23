@@ -1,4 +1,9 @@
+const today = new Date();
+const month = String(today.getMonth() + 1).padStart(2, '0');
+const day = String(today.getDate()).padStart(2, '0');
+const dateString = month + "/" + day;
 
+let shareResult = "PROCYCLE " + dateString + " ";
 let guessCount = 0;
 
 const flags = {
@@ -529,6 +534,29 @@ function getFlag(nationality) {
     return img;
 }
 
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        msg = document.getElementById("copyMessage");
+        msg.style.display = "block";
+        msg.classList.remove("fade-out");
+
+        setTimeout(function() {
+            msg.classList.add("fade-out");
+            setTimeout(function() {
+                msg.style.display = "none";
+                msg.classList.remove("fade-out");
+            }, 500);
+        }, 2000);
+    });
+}
+
+document.querySelectorAll(".shareButton").forEach(function(button) {
+    button.addEventListener("click", function() {
+        copyToClipboard(shareResult);
+    })
+});
+
+
 function addGuessRow(data) {
     const container = document.getElementById("guessContainer");
     
@@ -622,6 +650,7 @@ if (guessForm) {
             if (data.won) {
                 document.getElementById("wonMessage").style.display = "block";
                 document.getElementById("guessCountText").textContent = "Guesses: " + (guessCount + 1);
+                shareResult += "🟩";
             }
             if (data.revealed) {
                 document.getElementById("revealedMessage").style.display = "block";
@@ -640,6 +669,13 @@ if (guessForm) {
 
             const errorMessage = document.getElementById("errorMessage");
             const repeatMessage = document.getElementById("repeatMessage");
+            if (data.repeat) {
+                repeatMessage.textContent = data.repeat;
+                repeatMessage.style.display = "block";
+                errorMessage.style.display = "none";
+                document.getElementById("guessInput").value = "";
+                return;
+            }
             if (data.error) {
                 errorMessage.textContent = data.error;
                 errorMessage.style.display = "block";
@@ -647,19 +683,15 @@ if (guessForm) {
                 document.getElementById("guessInput").value = "";
                 return;
             }
-            if (data.repeat) {
-                repeatMessage.textContent = data.repeat;
-                repeatMessage.style.display = "block";
-                errorMessage.style.display = "none";
-                document.getElementById("guessInput").value = "";
-                return;
-            } 
             else {
                 errorMessage.style.display = "none";
                 repeatMessage.style.display = "none";
                 document.getElementById("guessInput").value = "";
                 addGuessRow(data);
-                guessCount++;
+                if (data.won != true){
+                    shareResult += "⬜";
+                    guessCount++;
+                }
                 if (guessMode === "Limited") {
                     document.getElementById("guessTracker").style.display = "block";
                     document.getElementById("guessTracker").textContent = "Guess " + (guessCount + 1) + " of 10";
