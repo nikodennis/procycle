@@ -10,15 +10,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
+import java.time.LocalDate;
+
+
 
 @Controller
 public class HomeController {
     GameService theData = new GameService();
 
-
+    private LocalDate lastResetDate = null;
 
     @GetMapping("/")
     public String home(Model model) {
+        LocalDate today = LocalDate.now();
+    
+        // If date has changed, reset the daily game state
+        if (lastResetDate == null || !lastResetDate.equals(today)) {
+            lastResetDate = today;
+            theData.clearHistory();
+            theData.setManuallyRevealed(false);
+            alreadyGuessedList.clear();
+            theData.setCurrentAnswerToDaily();
+        }
+
         model.addAttribute("listOfNames", theData.getListOfNames());
         model.addAttribute("mode", theData.getMode());
         model.addAttribute("difficulty", theData.getDifficulty());
