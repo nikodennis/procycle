@@ -43,7 +43,7 @@
 
     <hr style="width: 530px; border: 1px solid gray; margin: auto;">
 
-    <div style="display: flex; align-items: center; width: 543px; margin: auto; height: 50px;">
+    <div style="display: flex; align-items: center; width: 543px; margin: auto; height: 50px; padding-bottom: 5px;">
         <h2 id="dailyWelcome" class="welcome" th:style="${mode == 'Daily'} ? 'display: inline;' : 'display: none;'">Welcome to The Daily PROCYCLE</h2>
         <h2 id="unlimitedWelcome" class="welcome" th:style="${mode == 'Unlimited'} ? 'display: inline;' : 'display: none;'">Welcome to Unlimited PROCYCLE</h2>
         <div id = "statsbutton" style="display: inline; padding-left: 5px; width: 42px; vertical-align: middle;">
@@ -126,16 +126,27 @@
             </div>
             <hr class="grayline" style="width: 500px;">
         </div>
-        
-        <p class="menuText">Find a bug? Have a suggestions? Let me <a href="mailto:theprocycle@gmail.com" target="_blank">know</a>!</p>
-        <hr class="grayline" style="width: 500px;">
-        <p class="menuText">PROCYCLE was heavily inspired by <a href="https://www.spotle.io" target="_blank">Spotle</a> and <a href="https://www.nytimes.com/games/wordle" target="_blank">Wordle</a></p>
+        <p style="font-size: 25px; text-align: center; margin: 0px; padding-top: 10px; font-family: Nunito, 'Times New Roman', serif;">About</p>
+        <p class="menuText" style="margin-top: 10px;">PROCYCLE was heavily inspired by <a href="https://www.spotle.io" target="_blank">Spotle</a> and <a href="https://www.nytimes.com/games/wordle" target="_blank">Wordle</a></p>
+        <p class ="menuText">PROCYCLE was made to help people learn a little bit about pro cyclists they don't know. The goal is to take what you learned and use it to become more invested and engaged in WorldTour bike racing and the riders on your screen. PROCYCLE is a game that not only tests your cycling knowledge but also grows it.</p>
         <p class="menuText">A big thanks to <a href="https://www.procyclingstats.com" target="_blank">procyclingstats.com</a> for making this game possible through the statistics on their website.</p>
+        <hr class="grayline" style="width: 500px;">
+        <p class="menuText">Find a bug? Have a suggestions? Let me <a href="mailto:theprocycle@gmail.com" target="_blank">know</a>!</p>
         <hr class="grayline" style="width: 500px;">
         <p class="menuText" style="margin-bottom: 5px;">Next PROCYCLE</p>
         <p style="text-align:center; margin: 0px; font-family: 'Roboto Mono', monospace;"><span id="timer"></span></p>
-        <p class="menuText">Made by Niko (insert Github)</p>
+        <p class="menuText">By Niko Dennis (insert Github)</p>
     </div>
+
+
+
+
+
+
+
+
+
+
 
 
     <div id="directionsPage">
@@ -157,16 +168,16 @@
                 <div style="height: 50px; padding-left: 15px;"><h2 class="directSentence">Search for a cyclist to make your first guess.</h2></div>
             </div>
             <img src="/Guess1.png" style="width: 300px; height: 248px; object-fit: contain; display: block; margin: auto;">
-            <div style="display: flex; align-items: flex-start; padding-top: 30px; padding-bottom: 10px;">
+            <div style="display: flex; align-items: flex-start; padding-top: 50px; padding-bottom: 10px;">
                 <span class="directionNums">2</span>
                 <div style="height: 50px; padding-left: 15px;"><h2 class="directSentence">Narrow down the peleton with each guess.</h2></div>
             </div>
             <img src="/Guess2.png" style="width: 300px; height: 248px; object-fit: contain; display: block; margin: auto;">
-            <div style="display: flex; align-items: flex-start; padding-top: 30px; padding-bottom: 10px;">
+            <div style="display: flex; align-items: flex-start; padding-top: 50px; padding-bottom: 10px;">
                 <span class="directionNums">3</span>
                 <div style="height: 50px; padding-left: 15px;"><h2 class="directSentence">Piece together the clues until you guess the cyclist.</h2></div>
             </div>
-            <img src="/Guess3.png" style="width: 300px; height: 200px; object-fit: contain; display: block; margin: auto; padding-bottom: 30px;">
+            <img src="/Guess3.png" style="width: 300px; height: 200px; object-fit: contain; display: block; margin: auto; padding-bottom: 50px;">
             <hr class="grayline">
 
 

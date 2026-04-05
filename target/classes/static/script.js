@@ -721,6 +721,7 @@ if (guessForm) {
             }
             
             if (data.revealed) {
+                addGuessRow(data);
                 savedGuesses.push(data); 
                 guessCount++;
                 saveGameState("revealed", {
@@ -861,6 +862,7 @@ function loadGameState() {
         const revealedFlagEl = document.getElementById("revealedFlag");
         revealedFlagEl.innerHTML = "";
         revealedFlagEl.appendChild(getFlag(state.revealedData.nationality));
+        animateRevealedTiles()
     }
 
     // Restore variables

@@ -1,12 +1,11 @@
 package com.niko.procycle;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.InputStream;
@@ -195,13 +194,30 @@ public class GameService {
         return mode;
     }
 
-    public Cyclist getDailyCyclist(){
+    //public Cyclist getDailyCyclist(){
+        //LocalDate today = LocalDate.now(ZoneId.of("America/Denver"));
+        //int seed = today.getYear() * 1000 + today.getDayOfYear();
+        //Random random = new Random(seed);
+        //int randomIndex = random.nextInt(getFilteredList().size());
+        //return getFilteredList().get(randomIndex);
+    //}
+
+    public Cyclist getDailyCyclist() {
         LocalDate today = LocalDate.now(ZoneId.of("America/Denver"));
-        int seed = today.getYear() * 1000 + today.getDayOfYear();
+        
+        // Use year + month as seed to shuffle the list
+        int seed = today.getYear() * 100 + today.getMonthValue();
         Random random = new Random(seed);
-        int randomIndex = random.nextInt(getFilteredList().size());
-        return getFilteredList().get(randomIndex);
+        
+        // Copy and shuffle the full list
+        List<Cyclist> shuffledList = new ArrayList<>(getFilteredList());
+        Collections.shuffle(shuffledList, random);
+        
+        // Use day of month as index (day 1 = index 0, day 2 = index 1, etc.)
+        int dayIndex = today.getDayOfMonth() - 1;
+        return shuffledList.get(dayIndex);
     }
+
     public Cyclist getRandomCyclist(){
         Random random = new Random();
         int randomIndex = random.nextInt(getFilteredList().size());

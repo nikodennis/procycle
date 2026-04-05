@@ -317,8 +317,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 .welcome{
     vertical-align: middle;
-    padding-top: 15px; 
-    padding-bottom: 15px;
+    padding-bottom: 10px;
+    padding-top: 13px;
     width: 450px; 
     padding-left: 47px;
     margin: 0px; 
