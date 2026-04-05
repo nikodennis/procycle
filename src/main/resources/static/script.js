@@ -932,6 +932,7 @@ function initStats() {
 
 
 function updateStats(result) {
+    console.log("updateStats called:", result);
     const key = gameMode === "Daily" ? "procycleDailyStats" : "procycleUnlimitedStats";
     const stats = JSON.parse(localStorage.getItem(key));
 
@@ -939,21 +940,19 @@ function updateStats(result) {
 
     if (result === "won") {
         stats.wins++;
-        stats.guessDistribution[guessCount] = (stats.guessDistribution[guessCount] || 0) + 1;
+        const distKey = guessCount >= 10 ? "10+" : guessCount;
+        stats.guessDistribution[distKey] = (stats.guessDistribution[distKey] || 0) + 1;
         if (gameMode === "Daily") {
             stats.currentStreak++;
-            const key = guessCount >= 10 ? "10+" : guessCount;
-            stats.guessDistribution[key] = (stats.guessDistribution[key] || 0) + 1;
             if (stats.currentStreak > stats.maxStreak) {
                 stats.maxStreak = stats.currentStreak;
             }
         }
-    } 
-    else {
+    } else {
         if (gameMode === "Daily") {
             stats.currentStreak = 0;
         }
-    }
+}
 
     localStorage.setItem(key, JSON.stringify(stats));
 }
@@ -1014,7 +1013,7 @@ function displayStats() {
             distribution.innerHTML += `
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
                     <p style="margin: 0; width: 25px;">${key}</p>
-                    <div style="border-radius: 5px; background-color: gray; width: ${width}%; height: 25px; min-width: 10px;"></div>
+                    <div style="border-radius: 5px; background-color: gray; width: ${width - 10}%; height: 25px; min-width: 10px;"></div>
                     <p style="margin: 0;">${count === 0 ? '' : count}</p>
                 </div>`;
         });
