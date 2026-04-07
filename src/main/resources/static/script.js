@@ -178,6 +178,7 @@ var close3button = document.getElementById("close3button");
 if (sessionStorage.getItem("statisticsOpen") == "true") {
     statistics.classList.add("active");
     overlay.style.display = "flex";
+    displayStats()
 }   
 statsbutton.addEventListener("click", function() {
     statistics.classList.add("active");
@@ -715,6 +716,13 @@ if (guessForm) {
                 document.getElementById("guessTracker").style.display = "none";
                 document.getElementById("revealSection").style.display = "none";
                 document.getElementById("legend").style.display = "none";
+                if (gameMode == "Unlimited"){
+                    document.getElementById("shareButtonSection").style.display = "none";
+                }
+                if (gameMode == "Daily"){
+                    document.getElementById("shareButtonSection").style.display = "block";
+                }
+
                 guessForm.style.display = "none";
                 guesses = document.getElementById("guessCountText");
                 guesses.textContent = (guessCount);
