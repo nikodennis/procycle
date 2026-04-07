@@ -208,6 +208,7 @@ var suggestions = document.getElementById("suggestions");
 if (input) {
     input.addEventListener("input", function() {
         var text = input.value.toLowerCase();
+        var parts = text.split(" ").filter(function(p) { return p.length > 0; });
         suggestions.innerHTML = "";
             
         if (text.length == 0) {
@@ -221,11 +222,20 @@ if (input) {
         var lastNameMatches = [];
 
         for (var i = 0; i < cyclists.length; i++) {
-            var parts = cyclists[i].split(" ");
-            if (parts[0].toLowerCase().startsWith(text)) {
-                firstNameMatches.push(cyclists[i]);
-            } else if (parts.some(function(part) { return part.toLowerCase().startsWith(text); })) {
-                lastNameMatches.push(cyclists[i]);
+            var nameParts = cyclists[i].toLowerCase().split(" ");
+            if (parts.length == 1){
+                if (nameParts[0].startsWith(parts[0])) {
+                    firstNameMatches.push(cyclists[i]);
+                } else if (nameParts.some(function(part) { return part.startsWith(parts[0]); })) {
+                    lastNameMatches.push(cyclists[i]);
+                }
+            }
+            else {
+                // multiple words — check if all parts match somewhere in the name
+                var allMatch = parts.every(function(part) {
+                    return nameParts.some(function(p) { return p.startsWith(part); });
+                });
+                if (allMatch) firstNameMatches.push(cyclists[i]);
             }
         }
 
