@@ -95,13 +95,14 @@ public class HomeController {
 
         String currentMode = getCurrentMode(session);
         GameService activeGame = currentMode.equals("Daily") ? dailyGame : getUnlimitedGame(session);
+        getUnlimitedAlreadyGuessed(session).clear();
 
         model.addAttribute("listOfNames", activeGame.getListOfNames());
         model.addAttribute("mode", currentMode);
         model.addAttribute("difficulty", activeGame.getDifficulty());
         model.addAttribute("genderMode", activeGame.getGenderMode());
         model.addAttribute("guessMode", activeGame.getGuessMode());
-        //model.addAttribute("guessHistory", activeGame.getGuesses());
+        model.addAttribute("guessHistory", activeGame.getGuesses());
         model.addAttribute("won", activeGame.isWon());
         model.addAttribute("revealed", activeGame.isRevealed());
         if (activeGame.isRevealed()) {
@@ -113,6 +114,9 @@ public class HomeController {
             model.addAttribute("revealedGender", answer.getGender());
             model.addAttribute("revealedSpecialty", answer.getSpecialty());
             model.addAttribute("revealedNationality", answer.getNationality());
+        }
+        if (activeGame.isWon()) {
+            activeGame.setCurrentAnswerToRandom();
         }
         return "home";
     }
