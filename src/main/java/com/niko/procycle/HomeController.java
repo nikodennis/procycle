@@ -72,6 +72,12 @@ public class HomeController {
         return (LocalDate) session.getAttribute("lastResetDate");
     }
 
+
+
+
+
+
+
     @GetMapping("/")
     public String home(Model model, HttpSession session) {
         GameService dailyGame = getDailyGame(session);
@@ -80,23 +86,26 @@ public class HomeController {
 
         // If date has changed, reset the daily game state
         if (lastResetDate == null || !lastResetDate.equals(today)) {
-            lastResetDate = today;
+            session.setAttribute("lastResetDate", today);
             dailyGame.clearHistory();
             dailyGame.setManuallyRevealed(false);
             getDailyAlreadyGuessed(session).clear();
             dailyGame.setCurrentAnswerToDaily();
         }
 
-        model.addAttribute("listOfNames", dailyGame.getListOfNames());
-        model.addAttribute("mode", dailyGame.getMode());
-        model.addAttribute("difficulty", dailyGame.getDifficulty());
-        model.addAttribute("genderMode", dailyGame.getGenderMode());
-        model.addAttribute("guessMode", dailyGame.getGuessMode());
-        model.addAttribute("guessHistory", dailyGame.getGuesses());
-        model.addAttribute("won", dailyGame.isWon());
-        model.addAttribute("revealed", dailyGame.isRevealed());
-        if (dailyGame.isRevealed()) {
-            Cyclist answer = dailyGame.getCurrentAnswer();
+        String currentMode = getCurrentMode(session);
+        GameService activeGame = currentMode.equals("Daily") ? dailyGame : getUnlimitedGame(session);
+
+        model.addAttribute("listOfNames", activeGame.getListOfNames());
+        model.addAttribute("mode", currentMode);
+        model.addAttribute("difficulty", activeGame.getDifficulty());
+        model.addAttribute("genderMode", activeGame.getGenderMode());
+        model.addAttribute("guessMode", activeGame.getGuessMode());
+        model.addAttribute("guessHistory", activeGame.getGuesses());
+        model.addAttribute("won", activeGame.isWon());
+        model.addAttribute("revealed", activeGame.isRevealed());
+        if (activeGame.isRevealed()) {
+            Cyclist answer = activeGame.getCurrentAnswer();
             model.addAttribute("revealedName", answer.getName());
             model.addAttribute("revealedDebut", answer.getDebut());
             model.addAttribute("revealedTeam", answer.getTeam());

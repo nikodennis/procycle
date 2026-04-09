@@ -3,6 +3,9 @@ const month = String(today.getMonth() + 1).padStart(2, '0');
 const day = String(today.getDate()).padStart(2, '0');
 const dateString = month + "/" + day;
 
+console.log("gameMode on load:", gameMode);
+console.log("cyclists length:", cyclists.length);
+
 
 let shareResult = "PROCYCLE " + dateString + " ";
 let guessCount = 0;
@@ -1050,5 +1053,9 @@ updateGenderButtons(genderMode.toLowerCase() + "Button");
 updateGuessModeButtons(guessMode === "Limited" ? "limitedButton" : "infiniteButton");
 
 initStats()
-loadGameState();
+if (gameMode === "Daily") {
+    loadGameState();
+} else {
+    resetGame();
+}
     
