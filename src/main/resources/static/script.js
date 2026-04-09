@@ -965,7 +965,6 @@ function initStats() {
 
 
 function updateStats(result) {
-    console.log("updateStats called:", result);
     const key = gameMode === "Daily" ? "procycleDailyStats" : "procycleUnlimitedStats";
     const stats = JSON.parse(localStorage.getItem(key));
 
