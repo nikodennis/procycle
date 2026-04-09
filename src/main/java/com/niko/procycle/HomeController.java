@@ -114,10 +114,14 @@ public class HomeController {
             model.addAttribute("revealedGender", answer.getGender());
             model.addAttribute("revealedSpecialty", answer.getSpecialty());
             model.addAttribute("revealedNationality", answer.getNationality());
+            activeGame.setCurrentAnswerToRandom();
+            activeGame.setManuallyRevealed(false);
+            
         }
         if (activeGame.isWon()) {
             activeGame.setCurrentAnswerToRandom();
         }
+
         return "home";
     }
 

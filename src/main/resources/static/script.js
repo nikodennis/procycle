@@ -709,6 +709,8 @@ if (guessForm) {
         })
         .then(function(data) {
             console.log(data);
+            const errorMessage = document.getElementById("errorMessage");
+            const repeatMessage = document.getElementById("repeatMessage");
             if (data.won) {
                 addGuessRow(data);
                 savedGuesses.push(data); 
@@ -721,6 +723,8 @@ if (guessForm) {
                 document.getElementById("guessTracker").style.display = "none";
                 document.getElementById("revealSection").style.display = "none";
                 document.getElementById("legend").style.display = "none";
+                repeatMessage.style.display = "none";
+                errorMessage.style.display = "none";
                 if (gameMode == "Unlimited"){
                     document.getElementById("shareButtonSection").style.display = "none";
                 }
@@ -743,8 +747,6 @@ if (guessForm) {
                 return;
             }
             
-            const errorMessage = document.getElementById("errorMessage");
-            const repeatMessage = document.getElementById("repeatMessage");
 
             if (data.revealed) {
                 addGuessRow(data);
