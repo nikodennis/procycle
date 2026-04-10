@@ -1,11 +1,12 @@
-const today = new Date();
-const month = String(today.getMonth() + 1).padStart(2, '0');
-const day = String(today.getDate()).padStart(2, '0');
+const today = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
+const centralDate = new Date(today);
+const month = String(centralDate.getMonth() + 1).padStart(2, '0');
+const day = String(centralDate.getDate()).padStart(2, '0');
 const dateString = month + "/" + day;
 
 console.log("gameMode on load:", gameMode);
 console.log("cyclists length:", cyclists.length);
-
+console.log("current time:", new Date());
 
 let shareResult = "PROCYCLE " + dateString + " ";
 let guessCount = 0;
@@ -873,6 +874,9 @@ function loadGameState() {
     }
     const state = JSON.parse(saved);
     console.log("revealedData:", state.revealedData);
+    console.log("saved date:", state.date);
+    console.log("current dateString:", dateString);
+    console.log("match:", state.date === dateString);
 
     //Clear if old Date
     if (state.date !== dateString) {
