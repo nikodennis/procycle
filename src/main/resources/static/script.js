@@ -66,13 +66,12 @@ function getFlag(nationality) {
 
 var playButton = document.getElementById("playButton");
 var splashScreen = document.getElementById("splashScreen");
-    
-const navEntries = performance.getEntriesByType("navigation");
-const isReload = navEntries.length > 0 && navEntries[0].type === "reload";
-
-if (!isReload) {
+ 
+console.log("hasVisited:", sessionStorage.getItem("hasVisited"));
+if (!sessionStorage.getItem("hasVisited")) {
     splashScreen.style.display = "flex";
 }
+sessionStorage.setItem("hasVisited", "true");
 
 playButton.addEventListener("click", function() {
     splashScreen.style.opacity = "0";
@@ -205,9 +204,6 @@ close3button.addEventListener("click", function() {
 
 
 
-if (sessionStorage.getItem("hasPlayed") !== "true") {
-    splashScreen.style.display = "flex";
-}
 
 var input = document.getElementById("guessInput");
 var suggestions = document.getElementById("suggestions");
