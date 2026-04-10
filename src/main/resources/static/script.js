@@ -66,14 +66,17 @@ function getFlag(nationality) {
 
 var playButton = document.getElementById("playButton");
 var splashScreen = document.getElementById("splashScreen");
-if (sessionStorage.getItem("hasPlayed") !== "true") {
+    
+const navEntries = performance.getEntriesByType("navigation");
+const isReload = navEntries.length > 0 && navEntries[0].type === "reload";
+
+if (!isReload) {
     splashScreen.style.display = "flex";
 }
 
 playButton.addEventListener("click", function() {
     splashScreen.style.opacity = "0";
     setTimeout(function() { splashScreen.style.display = "none";}, 300);
-    sessionStorage.setItem("hasPlayed", "true");
 });
 
 const homeButton = document.getElementById("homeButton");
