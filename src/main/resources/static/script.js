@@ -738,15 +738,15 @@ if (guessForm) {
                 guessForm.style.display = "none";
                 guesses = document.getElementById("guessCountText");
                 guesses.textContent = (guessCount);
-                if (guessCount < 3){
-                    guesses.style.color = "green";
-                }
-                else if (guessCount < 7){
-                    guesses.style.color = "#F0C040";
-                }
-                else {
-                    guesses.style.color = "red";
-                }
+                //if (guessCount < 3){
+                    //guesses.style.color = "green";
+                //}
+                //else if (guessCount < 7){
+                    //guesses.style.color = "#F0C040";
+                //}
+                //else {
+                    //guesses.style.color = "red";
+                //}
                 return;
             }
             
@@ -934,13 +934,13 @@ function loadGameState() {
 
         const guesses = document.getElementById("guessCountText");
         guesses.textContent = state.guessCount;
-        if (state.guessCount < 3) {
-            guesses.style.color = "green";
-        } else if (state.guessCount < 7) {
-            guesses.style.color = "#F0C040";
-        } else {
-            guesses.style.color = "red";
-        }
+        //if (state.guessCount < 3) {
+            //guesses.style.color = "green";
+        //} else if (state.guessCount < 7) {
+            //guesses.style.color = "#F0C040";
+        //} else {
+            //guesses.style.color = "red";
+        //}
 
         shareResult += "🟩";
 
