@@ -18,7 +18,7 @@ Owain Doull,2016,Visma-Lease a Bike,2,Male,Oneday,Great Britain,Hard
 Matthew Brennan,2025,Visma-Lease a Bike,17,Male,Oneday,Great Britain,Easy
 Menno Huising,2025,Visma-Lease a Bike,0,Male,Oneday,Netherlands,Hard
 Christophe Laporte,2014,Visma-Lease a Bike,34,Male,Oneday,France,Easy
-Wout van Aert,2019,Visma-Lease a Bike,54,Male,Oneday,Belgium,Noob
+Wout van Aert,2019,Visma-Lease a Bike,57,Male,Oneday,Belgium,Noob
 Axel Zingle,2021,Visma-Lease a Bike,6,Male,Oneday,France,Medium
 Louis Barré,2023,Visma-Lease a Bike,0,Male,Oneday,France,Hard
 Timo Kielich,2024,Visma-Lease a Bike,3,Male,Oneday,Belgium,Hard
@@ -106,7 +106,7 @@ Oliver Naesen,2014,Decathlon CMA CGM Team,5,Male,Oneday,Belgium,Medium
 Olav Kooij,2021,Decathlon CMA CGM Team,51,Male,Sprint,Netherlands,Easy
 Tord Gudmestad,2022,Decathlon CMA CGM Team,1,Male,Sprint,Norway,Hard
 Gianluca Pollefliet,2024,Decathlon CMA CGM Team,0,Male,Sprint,Belgium,Hard
-Rasmus Søjberg Pedersen,2025,Decathlon CMA CGM Team,1,Male,Sprint,Denmark,Hard
+Rasmus Søjberg Pedersen,2025,Decathlon CMA CGM Team,2,Male,Sprint,Denmark,Hard
 Noa Isidore,2025,Decathlon CMA CGM Team,0,Male,Sprint,France,Hard
 Antoine L'Hote,2026,Decathlon CMA CGM Team,2,Male,Sprint,France,Hard
 Cees Bol,2018,Decathlon CMA CGM Team,6,Male,Sprint,Netherlands,Medium
@@ -221,7 +221,7 @@ Simone Consonni,2017,Lidl-Trek,3,Male,Oneday,Italy,Medium
 Toms Skujiņš,2016,Lidl-Trek,14,Male,Oneday,Latvia,Medium
 Edward Theuns,2014,Lidl-Trek,10,Male,Oneday,Belgium,Medium
 Otto Vergaerde,2014,Lidl-Trek,0,Male,Oneday,Belgium,Hard
-Jonathan milan,2021,Lidl-Trek,33,Male,Sprint,Italy,Noob
+Jonathan Milan,2021,Lidl-Trek,34,Male,Sprint,Italy,Noob
 Max Walscheid,2016,Lidl-Trek,13,Male,Sprint,Germany,Medium
 Tim Torn Teutenberg,2025,Lidl-Trek,0,Male,Sprint,Germany,Hard
 Mathias Sunekær Norsgaard,2019,Lidl-Trek,1,Male,Time Trial,Denmark,Hard
@@ -343,7 +343,7 @@ Haimar Etxeberria,2025,Red Bull-BORA-hansgrohe,1,Male,Oneday,Spain,Hard
 Adrien Boichis,2026,Red Bull-BORA-hansgrohe,0,Male,Oneday,France,Hard
 Danny van Poppel,2013,Red Bull-BORA-hansgrohe,24,Male,Sprint,Netherlands,Easy
 Callum Thornley,2026,Red Bull-BORA-hansgrohe,1,Male,Time Trial,Great Britain,Hard
-Remco Evenepoel,2019,Red Bull-BORA-hansgrohe,76,Male,Time Trial,Belgium,Noob
+Remco Evenepoel,2019,Red Bull-BORA-hansgrohe,77,Male,Time Trial,Belgium,Noob
 Tim van Dijke,2022,Red Bull-BORA-hansgrohe,2,Male,Time Trial,Netherlands,Hard
 Jan Tratnik,2011,Red Bull-BORA-hansgrohe,12,Male,Time Trial,Slovenia,Medium
 Mattia Cattaneo,2013,Red Bull-BORA-hansgrohe,4,Male,Time Trial,Italy,Medium
@@ -488,7 +488,7 @@ Rasmus Tiller,2019,Uno-X Mobility,6,Male,Oneday,Norway,Medium
 Anders Skaarseth,2020,Uno-X Mobility,0,Male,Oneday,Norway,Hard
 Jonas Abrahamsen,2020,Uno-X Mobility,4,Male,Oneday,Norway,Easy
 Markus Hoelgaard,2020,Uno-X Mobility,5,Male,Oneday,Norway,Medium
-Storm Ingebrigtsen,2026,Uno-X Mobility,1,Male,Sprint,Norway,Hard
+Storm Ingebrigtsen,2026,Uno-X Mobility,2,Male,Sprint,Norway,Hard
 Henrik Pedersen,2025,Uno-X Mobility,0,Male,Sprint,Denmark,Hard
 Erlend Blikra,2020,Uno-X Mobility,4,Male,Sprint,Norway,Hard
 Carl-Frederik Bévort,2024,Uno-X Mobility,0,Male,TT,Denmark,Hard
@@ -777,7 +777,7 @@ Josie Talbot,2017,Liv AlUla Jayco,4,Female,Oneday,Australia,Medium
 Jeanne Korevaar,2016,Liv AlUla Jayco,1,Female,Oneday,Netherlands,Hard
 Letizia Paternoster,2018,Liv AlUla Jayco,5,Female,Oneday,Italy,Medium
 Amber Pate,2023,Liv AlUla Jayco,0,Female,Oneday,Great Britain,Hard
-Mackenzie Coupland,2024,Liv AlUla Jayco,3,Female,Oneday,Canada,Hard
+Mackenzie Coupland,2024,Liv AlUla Jayco,3,Female,Oneday,Australia,Hard
 Georgia Baker,2015,Liv AlUla Jayco,3,Female,Sprint,Australia,Medium
 Noä Jansen,2022,Liv AlUla Jayco,0,Female,Sprint,Netherlands,Hard
 Nadia Gontova,2024,Liv AlUla Jayco,2,Female,Time Trial,Belarus,Hard
@@ -826,7 +826,7 @@ Blanka Vas,2022,SD Worx-Protime,13,Female,Oneday,Hungary,Medium
 Lotte Kopecky,2012,SD Worx-Protime,56,Female,Oneday,Belgium,Noob
 Anna van der Breggen,2012,SD Worx-Protime,65,Female,Oneday,Netherlands,Easy
 Elena Cecchini,2011,SD Worx-Protime,12,Female,Oneday,Italy,Medium
-Lorena Wiebes,2018,SD Worx-Protime,131,Female,Sprint,Netherlands,Noob
+Lorena Wiebes,2018,SD Worx-Protime,133,Female,Sprint,Netherlands,Noob
 Barbara Guarischi,2009,SD Worx-Protime,9,Female,Sprint,Italy,Medium
 Lisa Van Belle,2024,SD Worx-Protime,0,Female,Sprint,Netherlands,Hard
 Marie Schreiber,2024,SD Worx-Protime,4,Female,Time Trial,Luxembourg,Medium
@@ -867,7 +867,7 @@ Elynor Bäckstedt,2020,UAE Team ADQ,0,Female,Time Trial,Great Britain,Hard
 Alena Ivanchenko,2022,UAE Team ADQ,3,Female,Time Trial,Russia,Hard
 Febe Jooris,2023,UAE Team ADQ,0,Female,Time Trial,Belgium,Hard
 Anouska Koster,2012,Uno-X Mobility,8,Female,Hills,Netherlands,Medium
-Sigrid Ytterhus Haugset,2022,Uno-X Mobility,1,Female,Hills,Norway,Hard
+Sigrid Ytterhus Haugset,2022,Uno-X Mobility,2,Female,Hills,Norway,Hard
 Francesca Pellegrini,2023,Uno-X Mobility,0,Female,Hills,Italy,Hard
 Marte Berg Edseth,2022,Uno-X Mobility,0,Female,Hills,Norway,Hard
 Alessia Vigilia,2018,Uno-X Mobility,2,Female,Hills,Italy,Hard
